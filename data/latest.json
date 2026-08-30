@@ -7,61 +7,113 @@
     "min_area_sqm": 40,
     "household_type": "신혼부부(예비신혼부부 포함)"
   },
-  "listings": [
-    {
-      "source": "청년안심주택",
+  "sources": {
+    "청년안심주택": {
       "site": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/list.do?menuNo=400008",
-      "title": "2026년 2차 청년안심주택 입주자모집공고",
-      "announce_date": "2026-07-31",
-      "period": "2026-08-11 10:00 ~ 2026-08-13 17:00",
-      "total_units": 581,
-      "unit_breakdown": { "신규": 349, "재공급": 232 },
-      "target": "청년 + 신혼부부(예비 포함) 두 트랙 병행",
-      "eligibility": "공고일 기준 19~39세, 무주택, 계층별 소득·자산기준 충족",
-      "districts": null,
-      "area_range_sqm": null,
-      "deposit_rent": null,
-      "match": { "region": "unknown", "area": "unknown", "type": "match" },
-      "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?boardId=6624&menuNo=400008&optn1=2026-07-31",
-      "note": "단지별 소재지·전용면적·보증금/임대료는 공고문 원문 확인 필요"
+      "listings": [
+        {
+          "title": "신독산역 센트레빌 웨스트온 청년안심주택 입주자 최초모집공고",
+          "date": "2026-08-18",
+          "type": "개별 단지(공공지원 민간임대)",
+          "supply_types": ["청년형 특별공급", "청년형 일반공급", "신혼부부형 일반공급"],
+          "district": "금천구(독산역)",
+          "match": { "region": "off", "area": "unknown", "type": "match" },
+          "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?optn1=2026-08-18&boardId=6642&menuNo=400008"
+        },
+        {
+          "title": "2026년 2차 청년안심주택(공공임대) 입주자모집공고",
+          "date": "2026-07-31",
+          "period": "2026-08-11 10:00 ~ 2026-08-13 17:00",
+          "status": "접수마감",
+          "total_units": 581,
+          "unit_breakdown": { "신규": 349, "재공급": 232 },
+          "target": "청년 + 신혼부부(예비 포함) 두 트랙 병행",
+          "eligibility": "공고일 기준 19~39세, 무주택, 계층별 소득·자산기준 충족",
+          "match": { "region": "unknown", "area": "unknown", "type": "match" },
+          "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?boardId=6624&menuNo=400008&optn1=2026-07-31"
+        },
+        {
+          "title": "개봉역 에드가개봉 청년안심주택 입주자 최초모집공고",
+          "date": "2026-07-28",
+          "type": "개별 단지(공공지원 민간임대)",
+          "district": "구로구(개봉역)",
+          "match": { "region": "off", "area": "unknown", "type": "unknown" },
+          "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?optn1=2026-07-28&boardId=6613&menuNo=400008"
+        }
+      ]
     },
-    {
-      "source": "LH청약플러스",
+    "LH청약플러스": {
       "site": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026",
-      "title": "[서울지역본부] 26년 1차 신혼·신생아 매입임대Ⅰ·Ⅱ 예비입주자모집공고",
-      "announce_date": "2026-03-31",
-      "period": "Ⅰ형 2026-04-15 10:00 ~ 2026-04-17 16:00 (종료 추정)",
-      "total_units": null,
-      "target": "신혼부부(혼인 7년 이내, 예비 포함) · 신생아 가구",
-      "eligibility": "무주택, 혼인기간 7년 이내 또는 신생아 가구",
-      "districts": ["강동구", "광진구", "중랑구", "그 외 서울 다수 자치구"],
-      "area_range_sqm": null,
-      "deposit_rent": "Ⅰ형 시세 30~40% · Ⅱ형(전세형) 시세 70~80%",
-      "match": { "region": "match", "area": "unknown", "type": "match" },
-      "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026",
-      "note": "이 차수는 접수 종료 추정 — 다음 차수 게시 여부는 자동 갱신 시 재확인"
+      "listings": [
+        {
+          "title": "신혼·신생아 전세임대 Ⅰ·Ⅱ 입주자 수시모집",
+          "date": null,
+          "status": "상시모집",
+          "districts": ["강동구", "광진구", "중랑구", "그 외 전국(신청자가 희망 지역 선택)"],
+          "area_range_sqm": "85 이하(자율 선택)",
+          "eligibility": "혼인 7년 이내(예비 포함) 신혼부부 또는 신생아 가구",
+          "match": { "region": "match", "area": "match", "type": "match" },
+          "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026"
+        },
+        {
+          "title": "[서울지역본부] 26년 1차 신혼·신생아 매입임대Ⅱ(전세형) 예비입주자모집공고",
+          "date": "2026-03-31",
+          "status": "접수종료 추정",
+          "districts": ["강동구", "광진구", "중랑구", "그 외 서울 12개구"],
+          "deposit_rent": "시세 70~80%(준전세)",
+          "eligibility": "혼인 7년 이내(예비 포함) 또는 신생아 가구, 무주택",
+          "match": { "region": "match", "area": "unknown", "type": "match" },
+          "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300019645&ccrCnntSysDsCd=03&uppAisTpCd=13&aisTpCd=26&mi=1026"
+        },
+        {
+          "title": "[서울지역본부] 26년 1차 신혼·신생아 매입임대Ⅰ 예비입주자모집공고",
+          "date": "2026-03-31",
+          "period": "2026-04-15 10:00 ~ 2026-04-17 16:00",
+          "status": "접수마감",
+          "total_units": 119,
+          "districts": ["강동구", "광진구", "중랑구", "그 외 서울 9개구"],
+          "deposit_rent": "시세 30~40%",
+          "match": { "region": "match", "area": "unknown", "type": "match" },
+          "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300019643&ccrCnntSysDsCd=03&uppAisTpCd=13&aisTpCd=26&mi=1026"
+        }
+      ]
     },
-    {
-      "source": "SH 인터넷청약시스템",
+    "SH 인터넷청약시스템": {
       "site": "https://www.i-sh.co.kr/app/index.do",
-      "title": "2026년 1차 일반주택형 미리내집(신혼·신생아 매입임대Ⅱ)",
-      "announce_date": null,
-      "period": "2026-08-31 10:00 ~ 2026-09-02",
-      "total_units": 128,
-      "unit_breakdown": { "신규": 53, "잔여공가": 75 },
-      "target": "신혼부부 · 신생아 가구",
-      "eligibility": "무주택 세대구성원, 도시근로자 월평균소득 130% 이하(맞벌이 200% 이하), 총자산 3억 6,200만원 이하",
-      "districts": ["도봉구", "금천구", "송파구", "그 외 3개구(6개구 중 강동·광진·중랑 포함 여부 확인 필요)"],
-      "area_range_sqm": null,
-      "deposit_rent": "시세 60~70% 수준(준전세)",
-      "match": { "region": "unknown", "area": "unknown", "type": "match" },
-      "link": "https://www.i-sh.co.kr/app/index.do",
-      "note": "공급 지역 6개구 목록에 중랑·광진·강동 포함 여부는 원문 확인 필요"
+      "listings": [
+        {
+          "title": "2026년 일반주택형 미리내집(공공한옥) 잔여세대 모집공고",
+          "date": "2026-09-03",
+          "status": "청약 예정",
+          "match": { "region": "unknown", "area": "unknown", "type": "unknown" },
+          "link": "https://www.i-sh.co.kr/app/index.do"
+        },
+        {
+          "title": "2026년 1차 일반주택형 미리내집(신혼·신생아 매입임대Ⅱ)",
+          "date": "2026-08-31",
+          "period": "2026-08-31 10:00 ~ 2026-09-02",
+          "status": "접수예정",
+          "total_units": 128,
+          "unit_breakdown": { "신규": 53, "잔여공가": 75 },
+          "districts": ["도봉구", "금천구", "송파구", "그 외 3개구(강동·광진·중랑 포함 여부 확인 필요)"],
+          "deposit_rent": "시세 60~70%",
+          "eligibility": "무주택 세대구성원, 도시근로자 월평균소득 130% 이하(맞벌이 200% 이하), 총자산 3억 6,200만원 이하",
+          "match": { "region": "unknown", "area": "unknown", "type": "match" },
+          "link": "https://www.i-sh.co.kr/app/index.do"
+        },
+        {
+          "title": "2026년 하반기 일반 매입임대주택(다가구·원룸) 입주대기자 모집공고",
+          "date": "2026-08-27",
+          "match": { "region": "unknown", "area": "unknown", "type": "off" },
+          "link": "https://www.i-sh.co.kr/app/index.do"
+        },
+        {
+          "title": "2026년 1~2인가구 도시형생활주택 잔여세대 모집공고",
+          "date": "2026-08-18",
+          "match": { "region": "unknown", "area": "unknown", "type": "unknown" },
+          "link": "https://www.i-sh.co.kr/app/index.do"
+        }
+      ]
     }
-  ],
-  "sources_checked": [
-    "https://soco.seoul.go.kr/youth/bbs/BMSR00015/list.do?menuNo=400008",
-    "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026",
-    "https://www.i-sh.co.kr/app/index.do"
-  ]
+  }
 }
