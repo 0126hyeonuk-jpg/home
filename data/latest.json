@@ -5,7 +5,9 @@
     "region_note": "그 외 서울 지역은 가까울수록 우선",
     "deposit_rent_cap": null,
     "min_area_sqm": 40,
-    "household_type": "신혼부부(예비신혼부부 포함)"
+    "household_type": "신혼부부(예비신혼부부 포함)",
+    "window": "최근 2개월 이내 게시된 공고만 (상시모집/수시모집 항목은 예외)",
+    "window_range": "2026-06-30 ~ 2026-08-30"
   },
   "sources": {
     "청년안심주택": {
@@ -56,25 +58,7 @@
           "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026"
         },
         {
-          "title": "[서울지역본부] 26년 1차 신혼·신생아 매입임대Ⅱ(전세형) 예비입주자모집공고",
-          "date": "2026-03-31",
-          "status": "접수종료 추정",
-          "districts": ["강동구", "광진구", "중랑구", "그 외 서울 12개구"],
-          "deposit_rent": "시세 70~80%(준전세)",
-          "eligibility": "혼인 7년 이내(예비 포함) 또는 신생아 가구, 무주택",
-          "match": { "region": "match", "area": "unknown", "type": "match" },
-          "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300019645&ccrCnntSysDsCd=03&uppAisTpCd=13&aisTpCd=26&mi=1026"
-        },
-        {
-          "title": "[서울지역본부] 26년 1차 신혼·신생아 매입임대Ⅰ 예비입주자모집공고",
-          "date": "2026-03-31",
-          "period": "2026-04-15 10:00 ~ 2026-04-17 16:00",
-          "status": "접수마감",
-          "total_units": 119,
-          "districts": ["강동구", "광진구", "중랑구", "그 외 서울 9개구"],
-          "deposit_rent": "시세 30~40%",
-          "match": { "region": "match", "area": "unknown", "type": "match" },
-          "link": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300019643&ccrCnntSysDsCd=03&uppAisTpCd=13&aisTpCd=26&mi=1026"
+          "note": "최근 2개월(2026-06-30~2026-08-30) 내 서울지역본부 신혼·신생아 매입임대Ⅰ·Ⅱ 신규 회차 공고 없음. 가장 최근 회차는 26년 1차(공고 2026-03-31, 접수 2026-04-15~04-17, 접수마감)."
         }
       ]
     },
