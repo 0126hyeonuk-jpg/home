@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>찐말랑 하우스</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #eef2f0;
+    --surface: #ffffff;
+    --surface-2: #e4e9e6;
+    --ink: #14232a;
+    --muted: #566268;
+    --line: #d4dbd7;
+    --accent: #0f5e56;
+    --accent-ink: #ffffff;
+    --accent-soft: #dcece8;
+    --good: #2f7d4f;
+    --good-soft: #e2f1e6;
+    --warn: #a67618;
+    --warn-soft: #f5ead2;
+    --off: #8a6a68;
+    --off-soft: #ece1e0;
+    --shadow: 0 1px 2px rgba(20, 35, 42, 0.06), 0 6px 20px rgba(20, 35, 42, 0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10181b;
+      --surface: #172226;
+      --surface-2: #1e2b2f;
+      --ink: #e7ece9;
+      --muted: #93a3a0;
+      --line: #2a3a3d;
+      --accent: #45b3a4;
+      --accent-ink: #08201c;
+      --accent-soft: #1c3733;
+      --good: #6bc98c;
+      --good-soft: #1c332177;
+      --warn: #e0b258;
+      --warn-soft: #3a2f1877;
+      --off: #d99b96;
+      --off-soft: #3a252477;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10181b;
+    --surface: #172226;
+    --surface-2: #1e2b2f;
+    --ink: #e7ece9;
+    --muted: #93a3a0;
+    --line: #2a3a3d;
+    --accent: #45b3a4;
+    --accent-ink: #08201c;
+    --accent-soft: #1c3733;
+    --good: #6bc98c;
+    --good-soft: #1c332177;
+    --warn: #e0b258;
+    --warn-soft: #3a2f1877;
+    --off: #d99b96;
+    --off-soft: #3a252477;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { color-scheme: light dark; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Gowun Dodum', sans-serif;
+    line-height: 1.5;
+    padding: 0 0 64px;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  header.top {
+    padding: 40px 20px 28px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--surface-2), var(--bg));
+  }
+
+  header.top .inner { max-width: 980px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 8px 0 10px;
+    text-wrap: balance;
+  }
+
+  .sub { color: var(--muted); font-size: 15px; max-width: 60ch; }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .criteria-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+  }
+
+  .criteria-chip b { font-weight: 600; }
+
+  .updated-line {
+    margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .updated-line a { color: var(--accent); }
+
+  main { padding-top: 20px; }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    padding: 12px 0;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .quick-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .nav-btn {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .nav-btn:hover { background: var(--surface-2); }
+  .nav-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .filter-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .filter-btn.active { background: var(--accent); color: var(--accent-ink); }
+  .filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .filter-empty {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .source-section { scroll-margin-top: 66px; }
+
+  .scroll-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    z-index: 30;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+  .scroll-top-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .scroll-top-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-top-btn { transition: opacity 0.01s linear; }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  .source-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .source-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .source-head h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .source-head .site {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .listing {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .listing:last-of-type { border-bottom: none; }
+
+  .listing.clickable {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+  }
+  .listing.clickable:hover,
+  .listing.clickable:focus-visible {
+    background: var(--surface-2);
+  }
+  .listing.clickable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .listing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .listing-date-group {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .listing-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .listing-chevron {
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  .status-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 5px;
+    letter-spacing: 0.02em;
+  }
+  .status-badge.open   { background: var(--good-soft); color: var(--good); }
+  .status-badge.always { background: var(--accent-soft); color: var(--accent); }
+  .status-badge.soon   { background: var(--warn-soft); color: var(--warn); }
+  .status-badge.closed { background: var(--off-soft);  color: var(--off); }
+
+  .listing-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .listing-meta {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .listing-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .pill.off  { background: var(--off-soft);  color: var(--off); }
+  .pill.verified {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .calendar-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 20px 18px;
+    margin-bottom: 20px;
+  }
+
+  .calendar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .calendar-head h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .calendar-legend .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .dday-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+  }
+
+  .dday-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 14px 8px 8px;
+    cursor: pointer;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .dday-chip:hover {
+    background: var(--accent-soft);
+  }
+  .dday-chip:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .dday-label { white-space: nowrap; }
+
+  .calendar-months {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+
+  .month-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .month-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .month-table th {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--muted);
+    padding-bottom: 4px;
+  }
+
+  .month-table td {
+    text-align: center;
+    vertical-align: top;
+    padding: 1px 2px;
+  }
+
+  .day-cell {
+    width: 100%;
+    box-sizing: border-box;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10.5px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .day-cell .num {
+    padding-top: 2px;
+  }
+
+  .day-cell.has-event .num {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .day-cell.today {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .event-bar {
+    margin-top: 2px;
+    width: 100%;
+    height: 18px;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    font-family: 'Gowun Dodum', sans-serif;
+  }
+  .event-bar.point       { border-radius: 7px; width: calc(100% - 6px); }
+  .event-bar.range-start { border-radius: 7px 0 0 7px; width: calc(100% - 3px); margin-left: 3px; }
+  .event-bar.range-end   { border-radius: 0 7px 7px 0; width: calc(100% - 3px); margin-right: 3px; }
+  .event-bar.range-mid   { border-radius: 0; }
+  .event-bar:hover {
+    filter: brightness(1.12);
+  }
+  .event-bar:focus-visible {
+    filter: brightness(1.12);
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  .calendar-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .source-foot {
+    padding: 12px 20px;
+    background: var(--surface-2);
+  }
+
+  .btn {
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 7px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+
+  .checklist-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .checklist-section summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .checklist-section summary::-webkit-details-marker { display: none; }
+
+  .checklist-section summary h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .checklist-chevron {
+    display: inline-block;
+    transition: transform 0.15s ease;
+    color: var(--muted);
+  }
+  .checklist-section details[open] .checklist-chevron { transform: rotate(90deg); }
+
+  .checklist-progress {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .checklist-body {
+    padding: 0 20px 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .checklist-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 14px 0;
+  }
+
+  .checklist-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist-list li label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+
+  .checklist-list input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .checklist-list li.checked label {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .runbox {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .runbox b { color: var(--ink); }
+  .runbox a { color: var(--accent); font-weight: 600; }
+
+  footer.note {
+    max-width: 980px;
+    margin: 36px auto 0;
+    padding: 0 20px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  footer.note a { color: var(--accent); }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 16, 18, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    opacity: 0;
+    animation: overlay-in 0.15s ease forwards;
+  }
+  .modal-overlay[hidden] { display: none; }
+
+  @keyframes overlay-in { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-overlay { animation: none; opacity: 1; }
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(20,35,42,0.14), 0 24px 48px rgba(20,35,42,0.18);
+    max-width: 560px;
+    width: 100%;
+    max-height: min(680px, 88vh);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .modal-head-text .source-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .modal-head h3 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--surface-2); color: var(--ink); }
+
+  .modal-body {
+    padding: 18px 24px;
+    overflow-y: auto;
+  }
+
+  .modal-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .modal-facts {
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    gap: 7px 12px;
+    font-size: 13px;
+  }
+  .modal-facts dt { color: var(--muted); }
+  .modal-facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+  .modal-insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+
+  .modal-insight {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .modal-foot {
+    padding: 14px 24px 18px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow">SH · LH · 청년안심주택</div>
+    <h1>찐말랑 하우스</h1>
+    <p class="sub">세 기관의 최신 입주자모집공고 중 신혼부부 대상 공고만 모아, 우리 기준(지역·면적)에 맞는지 한눈에 확인합니다.</p>
+    <div class="meta-row">
+      <span class="criteria-chip">📍 <b>중랑구·광진구·강동구</b> 우선</span>
+      <span class="criteria-chip">📐 전용 <b>40㎡ 이상</b></span>
+      <span class="criteria-chip">💑 <b>신혼부부</b> 유형</span>
+      <span class="criteria-chip">🗓️ 최근 <b>2개월</b> 공고</span>
+    </div>
+    <div class="updated-line">최근 갱신 2026-09-02 10:00 · 다음 자동 갱신 매일 10:00 (KST) · 사이트별 최근 2개월(07.02~09.02) 공고 최신순</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="runbox">
+    🔄 이 페이지는 매일 오전 10시(KST) <b>GitHub Actions</b>가 3개 사이트를 실제로 다시 확인해 자동 갱신합니다. 지금 바로 새로 확인하고 싶으면 저장소의
+    <a href="https://github.com/0126hyeonuk-jpg/home/actions/workflows/update.yml" target="_blank" rel="noopener">Actions → 찐말랑 하우스 자동 갱신 → Run workflow</a> 버튼을 눌러주세요(로그인한 저장소 협업자만 실행 가능).
+  </div>
+
+  <div class="toolbar">
+    <nav class="quick-nav" aria-label="섹션 바로가기">
+      <button type="button" class="nav-btn" data-target="src-soco">청년안심주택</button>
+      <button type="button" class="nav-btn" data-target="src-lh">LH청약플러스</button>
+      <button type="button" class="nav-btn" data-target="src-sh">SH 인터넷청약시스템</button>
+    </nav>
+    <div class="filter-toggle" role="group" aria-label="공고 필터">
+      <button type="button" class="filter-btn active" data-filter="all">전체</button>
+      <button type="button" class="filter-btn" data-filter="open">접수 가능만</button>
+      <button type="button" class="filter-btn" data-filter="verified">📄 PDF 확인만</button>
+    </div>
+  </div>
+
+  <section class="calendar-section">
+    <div class="calendar-head">
+      <h2>청약신청일 캘린더</h2>
+      <span class="calendar-legend"><span class="dot"></span> 접수기간·청약시작일 (클릭하면 인사이트 팝업)</span>
+    </div>
+    <div class="dday-strip" id="ddayStrip"></div>
+    <div class="calendar-months" id="calendarMonths"></div>
+    <div class="calendar-note" id="calendarNote"></div>
+  </section>
+
+  <section class="cards" id="cards">
+    <article class="source-section" id="src-soco">
+      <div class="source-head">
+        <h2>청년안심주택</h2>
+        <span class="site">soco.seoul.go.kr</span>
+      </div>
+
+      <div class="listing clickable" data-id="soco-6642" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">신독산역 센트레빌 웨스트온 청년안심주택 입주자 최초모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.18</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill off">📍 금천구 · 우선지역 아님</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill good">💑 신혼부부형 일반공급 있음</span>
+        </div>
+        <div class="listing-meta">청년형 특별·일반공급 + 신혼부부형 일반공급 · 공공지원 민간임대 (독산역)</div>
+      </div>
+
+      <div class="listing clickable" data-id="soco-noryangjin" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">노량진역 한강더퍼스트타워 청년안심주택 입주자 최초모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.18</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill off">📍 동작구 · 우선지역 아님</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill warn">💑 신혼부부형 포함 여부 확인 필요</span>
+        </div>
+        <div class="listing-meta">공공지원 민간임대 (노량진역) · 단지 전체 약 840세대(2개동) · 접수기간은 검색으로 확인 안 됨</div>
+      </div>
+
+      <div class="listing clickable" data-id="soco-6638" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">태릉입구역 이니티움 청년안심주택 예비입주자 추가모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.13</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge closed">접수마감</span>
+          <span class="pill off">📍 노원구 · 우선지역 아님(중랑구 인접)</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill good">💑 신혼부부일반 2세대 포함(추정)</span>
+        </div>
+        <div class="listing-meta">공공지원 민간임대 (노원구 공릉동, 태릉입구역) · 전체 100세대 단지의 예비입주자 추가모집 · 접수 2026.08.17~08.18(마감) · 공급호수는 출처마다 달라(공식 게시판은 "2세대·일반공급", 별도 공지는 "청년특별 1·신혼부부일반 2세대" 언급) 정확한 세대수는 원문 확인 필요</div>
+      </div>
+
+      <div class="listing clickable" data-id="soco-6624" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 2차 청년안심주택(공공임대) 입주자모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.07.31</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge closed">접수마감</span>
+          <span class="pill warn">📍 지역 확인 필요</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill good">💑 신혼부부 트랙 포함</span>
+        </div>
+        <div class="listing-meta">581세대(신규 349·재공급 232) · 접수 08.11~08.13(마감) · 19~39세 무주택, 소득·자산기준 충족 청년·신혼부부</div>
+      </div>
+
+      <div class="listing clickable" data-id="soco-6613" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">개봉역 에드가개봉 청년안심주택 입주자 최초모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.07.28</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill off">📍 구로구 · 우선지역 아님</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill warn">💑 신혼부부형 포함 여부 확인 필요</span>
+        </div>
+        <div class="listing-meta">공공지원 민간임대 (개봉역) · 세부 공급유형은 원문 확인 필요</div>
+      </div>
+
+      <div class="listing clickable" data-id="soco-hwarangdae" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">화랑대역 에이트플레이스 청년안심주택 예비입주자 추가모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.07.23</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge closed">접수마감</span>
+          <span class="pill good">📍 중랑구 · 최우선지역</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill good">💑 신혼부부 구분모집 있음</span>
+        </div>
+        <div class="listing-meta">공공지원 민간임대 (중랑구 신내동, 화랑대역) · 전체 724세대 중 민간임대 471세대(최초모집 기준) · 청년·청년셰어·신혼부부 구분모집 · 추가모집 접수 07.24~07.27(마감)</div>
+      </div>
+
+      <div class="filter-empty" hidden>지금은 표시할 공고가 없어요 — "전체" 보기로 바꿔서 확인해보세요.</div>
+
+      <div class="source-foot">
+        <a class="btn ghost" href="https://soco.seoul.go.kr/youth/bbs/BMSR00015/list.do?menuNo=400008" target="_blank" rel="noopener">전체 공고 목록 →</a>
+      </div>
+    </article>
+
+    <article class="source-section" id="src-lh">
+      <div class="source-head">
+        <h2>LH청약플러스</h2>
+        <span class="site">apply.lh.or.kr</span>
+      </div>
+
+      <div class="listing clickable" data-id="lh-jeonse" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">신혼·신생아 전세임대 Ⅰ·Ⅱ 입주자 수시모집</div>
+          <div class="listing-date-group"><span class="listing-date">상시</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge always">상시모집</span>
+          <span class="pill good">📍 강동·광진·중랑 포함(전지역 신청)</span>
+          <span class="pill good">📐 85㎡ 이하 자율선택(40㎡+ 가능)</span>
+          <span class="pill good">💑 신혼·신생아 대상</span>
+        </div>
+        <div class="listing-meta">본인이 희망 지역·주택을 구해 전세/보증부월세 계약 후 LH가 지원 · 국민주택규모(전용 85㎡ 이하) 한도 내 자율 선택 · 접수기간 2026.03.24~2026.12.31(상시)</div>
+      </div>
+
+      <div class="listing">
+        <div class="listing-meta" style="font-style: italic;">최근 2개월(07.02~09.02) 내 서울지역본부 신혼·신생아 매입임대Ⅰ·Ⅱ 신규 회차 공고는 확인되지 않았습니다 — 가장 최근 확인된 회차는 26년 2차(게시 2026.06.26, 접수 2026.07.06~07.08)로 조사 기준일보다 먼저 게시돼 이미 마감됐고, 3차 공고가 올라왔는지는 09.02 현재도 검색으로 확인되지 않았습니다. 위 상시모집(전세임대)은 계속 신청 가능하며, 접수기간(2026.03.24~2026.12.31)에도 변경 사항은 확인되지 않았습니다.</div>
+      </div>
+
+      <div class="filter-empty" hidden>지금은 표시할 공고가 없어요 — "전체" 보기로 바꿔서 확인해보세요.</div>
+
+      <div class="source-foot">
+        <a class="btn ghost" href="https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026" target="_blank" rel="noopener">전체 공고 목록 →</a>
+      </div>
+    </article>
+
+    <article class="source-section" id="src-sh">
+      <div class="source-head">
+        <h2>SH 인터넷청약시스템</h2>
+        <span class="site">i-sh.co.kr</span>
+      </div>
+
+      <div class="listing clickable" data-id="sh-jeonse51" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">제51차 장기전세주택 예비입주자 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.31</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge soon">접수예정 09.14~09.17</span>
+          <span class="pill good">📍 중랑구 어반하임102 1세대(신규공급)</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill warn">💑 신혼부부 신청 가능(전용 트랙 아님)</span>
+        </div>
+        <div class="listing-meta">신규 9개단지 291세대(강남 래미안레벤투스24·청담르엘57, 서초 디에이치방배133·오티에르반포20, 구로 두산위브더프레스티지9, 동대문 이문3 복합공공청사2, 성동 성동자이리버뷰9, 영등포 영등포자이디그니티36, 중랑 어반하임102 1) + 재공급 70개단지·지구 1,090세대, 총 1,381세대 · 신규공급 목록에 강동·광진구는 없음, 재공급 물량에 포함되는지는 검색으로 확인 안 됨 · 신혼부부 전용 트랙이 아닌 일반 무주택 세대주 자격 · 접수 1순위 09.14~15, 2순위 09.16, 3·4순위 09.17</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-happy2" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 2차 행복주택 입주자 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.28</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge soon">접수예정 09.09~09.11</span>
+          <span class="pill warn">📍 지역 확인 필요</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill warn">💑 신혼부부 포함(전용 특별공급 아님)</span>
+        </div>
+        <div class="listing-meta">신규 154+잔여 391+예비 939, 총 1,484세대 · 대학생·청년·신혼부부·고령자 대상, 2세 미만 자녀가구 우선공급 · 시세 60~80% 수준(예: 39㎡↓ 보증금 1억1,800만원/월45만원, 59㎡↓ 1억7,300만원/월66만원) · 접수 09.09~09.11, 서류심사대상자 발표 09.21</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-daegagu" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 하반기 일반 매입임대주택(다가구·원룸) 입주대기자 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.27</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill warn">📍 지역 확인 필요</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill off">💑 신혼부부 특정 안 됨</span>
+        </div>
+        <div class="listing-meta">다가구·원룸 대상 입주대기자 모집 · 신혼부부 전용 트랙인지 원문 확인 필요</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-hanok" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 일반주택형 미리내집(공공한옥) 잔여세대 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.24</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge soon">접수예정 09.03~</span>
+          <span class="pill off">📍 종로구·성북구 · 우선지역 아님</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill good">💑 신혼부부형 대상 확인</span>
+        </div>
+        <div class="listing-meta">"미리내집" 신혼·신생아 매입임대Ⅱ 방식 공공한옥 특화 · 종로구(가회동·계동·원서동·필운동)·성북구(보문동) 잔여세대 재공급 · 접수시작 09.03(마감일 확인 안 됨)</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-jangjeonse8" data-verified="true" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">제8차 장기전세주택2(미리내집) 예비입주자 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.21</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill verified">📄 PDF 확인됨</span>
+          <span class="status-badge soon">접수예정 09.07~09.09</span>
+          <span class="pill good">📍 강동 20·광진 2·중랑 2세대</span>
+          <span class="pill warn">📐 36~84㎡(강동 6세대는 40㎡ 미만)</span>
+          <span class="pill good">💑 신혼부부·예비신혼부부 대상</span>
+        </div>
+        <div class="listing-meta">총 496세대(신규 293·재공급 203) · 강동구 20세대(재공급 3+매입형 17)·광진구 2세대·중랑구 2세대 · 전세금 3.57억~6.81억(단지별) · 시세 약 80%, 보증금 70% 선납+30% 퇴거시까지 유예 · 소득 60㎡이하 120%↓(맞벌이180%↓)·60㎡초과 150%↓(맞벌이200%↓)</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-gukmin1973" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 국민임대주택 입주자 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.20</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="status-badge open">접수중 08.31~09.03(선순위)</span>
+          <span class="pill good">📍 강동구(고덕·강일지구) 포함 확인</span>
+          <span class="pill warn">📐 39·49·59㎡ 이하 혼재(일부 40㎡ 미만)</span>
+          <span class="pill warn">💑 신혼부부 신청 가능(전용 트랙 아님)</span>
+        </div>
+        <div class="listing-meta">잔여공가 409+예비입주자 1,564, 총 1,973세대 · 13개 자치구 38개 단지(세곡·강일·마곡·위례포레샤인·고덕온빛채 등) · 강동구는 고덕·강일지구 포함 확인, 광진·중랑구 포함 여부는 검색으로 확인 안 됨 · 선순위 접수 08.31~09.03, 후순위 09.16(선순위 200% 초과 시 미진행)</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-urban" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 1~2인가구 도시형생활주택 잔여세대 모집공고</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.18</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill warn">📍 지역 확인 필요</span>
+          <span class="pill warn">📐 면적 확인 필요</span>
+          <span class="pill warn">💑 신혼부부 대상 여부 확인 필요</span>
+        </div>
+        <div class="listing-meta">1~2인가구 대상 잔여세대 · 신혼부부 해당 여부는 원문 확인 필요</div>
+      </div>
+
+      <div class="listing clickable" data-id="sh-miraenae1" data-verified="true" role="button" tabindex="0">
+        <div class="listing-top">
+          <div class="listing-title">2026년 1차 일반주택형 미리내집(신혼·신생아 매입임대Ⅱ)</div>
+          <div class="listing-date-group"><span class="listing-date">2026.08.14</span><span class="listing-chevron">›</span></div>
+        </div>
+        <div class="listing-tags">
+          <span class="pill verified">📄 PDF 확인됨</span>
+          <span class="status-badge open">접수중 08.31~09.02</span>
+          <span class="pill good">📍 중랑구 새울센스빌 20세대 포함</span>
+          <span class="pill good">📐 전용 42.37~73.84㎡(모두 40㎡ 이상)</span>
+          <span class="pill good">💑 신혼·신생아 대상</span>
+        </div>
+        <div class="listing-meta">128세대(신규 53·잔여 75) · 중랑구 새울센스빌 20세대(전용 42.45~59.88㎡) · 보증금 5,418만~8,988만원, 월세 55.8만~92.6만원(소득구간별) · 소득 130%↓(맞벌이 200%↓), 자산 3.62억↓</div>
+      </div>
+
+      <div class="filter-empty" hidden>지금은 표시할 공고가 없어요 — "전체" 보기로 바꿔서 확인해보세요.</div>
+
+      <div class="source-foot">
+        <a class="btn ghost" href="https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2" target="_blank" rel="noopener">주택임대 공고 게시판 →</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="checklist-section">
+    <details>
+      <summary>
+        <h2><span class="checklist-chevron">▸</span> 신청 준비서류 체크리스트</h2>
+        <span class="checklist-progress" id="checklistProgress"></span>
+      </summary>
+      <div class="checklist-body">
+        <p class="checklist-note">공고마다 요구서류가 조금씩 달라요 — 이건 신혼부부 청약에 공통적으로 자주 쓰이는 서류 목록이고, 접수 전 반드시 해당 공고문에서 정확한 서류를 다시 확인하세요. 체크한 내용은 이 기기 브라우저에만 저장돼요.</p>
+        <ul class="checklist-list" id="checklistList">
+          <li><label><input type="checkbox" data-key="id"> 신분증 (주민등록증·운전면허증)</label></li>
+          <li><label><input type="checkbox" data-key="deungbon"> 주민등록등본 (전 세대원 포함, 최근 발급분)</label></li>
+          <li><label><input type="checkbox" data-key="gajok"> 가족관계증명서 · 혼인관계증명서</label></li>
+          <li><label><input type="checkbox" data-key="yebi"> (예비신혼부부) 청첩장 또는 예식장 계약서 등 예비 증빙</label></li>
+          <li><label><input type="checkbox" data-key="income"> 소득 증빙서류 (건강보험료 납부확인서 또는 근로·사업소득 증빙)</label></li>
+          <li><label><input type="checkbox" data-key="nohouse"> 무주택 확인서류 (건축물대장, 지방세 세목별과세증명서 등)</label></li>
+          <li><label><input type="checkbox" data-key="asset"> 자산 관련 서류 (통장 잔액증명서, 자동차등록증 등)</label></li>
+          <li><label><input type="checkbox" data-key="bankbook"> 청약통장 가입확인서 (필요 시)</label></li>
+        </ul>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer class="note">
+  매일 오전 10시 GitHub Actions로 자동 갱신되며, 각 사이트별로 최근 2개월 이내에 게시된 공고만 보여줍니다(상시모집은 예외) · 조건 판정은 공고문 요약을 바탕으로 하며, 최종 신청 전 원문 공고문을 반드시 확인하세요.
+</footer>
+
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="맨 위로">↑</button>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <div class="modal-head-text">
+        <span class="source-tag" id="modalSource"></span>
+        <h3 id="modalTitle"></h3>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="닫기" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tags" id="modalTags"></div>
+      <dl class="modal-facts" id="modalFacts"></dl>
+      <p class="modal-insight-label">PDF·공고문 분석 인사이트</p>
+      <p class="modal-insight" id="modalInsight"></p>
+    </div>
+    <div class="modal-foot">
+      <a class="btn primary" id="modalLink" href="#" target="_blank" rel="noopener">원문 공고 열기 →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const INSIGHTS = {
+  "soco-6642": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "신독산역 센트레빌 웨스트온 청년안심주택 입주자 최초모집공고",
+    "tags": [
+      [
+        "off",
+        "📍 금천구 · 우선지역 아님"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "good",
+        "💑 신혼부부형 일반공급 있음"
+      ]
+    ],
+    "facts": [
+      [
+        "지역",
+        "금천구(독산역)"
+      ],
+      [
+        "유형",
+        "청년형 특별·일반 + 신혼부부형 일반"
+      ],
+      [
+        "날짜",
+        "2026.08.18"
+      ]
+    ],
+    "insight": "이 단지는 금천구 독산역에 있어서 중랑·광진·강동과는 꽤 떨어져 있어요. 다만 청년안심주택은 원래 신혼부부형 일반공급을 함께 내놓는 경우가 많아서, 이번에도 신혼부부 몫이 있다는 점은 확인됐습니다. 전용면적과 정확한 보증금·임대료는 단지별 공급내역표(PDF)를 봐야 나오는데, 지금은 자동 검색만으로 그 표까지는 못 읽어서 \"확인 필요\"로 남겨뒀어요. 원문 공고문의 \"공급내역\" 표에서 평형과 보증금을 확인해보는 걸 추천해요.",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?optn1=2026-08-18&boardId=6642&menuNo=400008"
+  },
+  "soco-noryangjin": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "노량진역 한강더퍼스트타워 청년안심주택 입주자 최초모집공고",
+    "tags": [
+      [
+        "off",
+        "📍 동작구 · 우선지역 아님"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "warn",
+        "💑 신혼부부형 포함 여부 확인 필요"
+      ]
+    ],
+    "facts": [
+      [
+        "지역",
+        "동작구(노량진역)"
+      ],
+      [
+        "단지 규모",
+        "약 840세대(2개동, 지하7층~지상43층)"
+      ],
+      [
+        "날짜",
+        "2026.08.18"
+      ]
+    ],
+    "insight": "동작구 노량진역 개별 단지 공고예요. 청년안심주택은 보통 청년형과 신혼부부형을 함께 내놓지만, 이 단지가 신혼부부형을 포함하는지, 정확한 접수기간이 언제인지는 검색만으로 확인이 안 돼서 원문을 봐야 합니다. 위치도 중랑·광진·강동에서는 먼 편이라 급히 볼 필요는 낮아 보여요. (검색 과정에서 이 단지와 신독산역 웨스트온 공고의 게시판 번호가 서로 뒤섞여 나오는 경우가 있어, 정확한 상세페이지 링크는 원문 게시판에서 직접 찾아보는 걸 권장해요.)",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/list.do?menuNo=400008"
+  },
+  "soco-6638": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "태릉입구역 이니티움 청년안심주택 예비입주자 추가모집공고",
+    "tags": [
+      [
+        "closed",
+        "접수마감",
+        true
+      ],
+      [
+        "off",
+        "📍 노원구 · 우선지역 아님(중랑구 인접)"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "good",
+        "💑 신혼부부일반 2세대 포함(추정)"
+      ]
+    ],
+    "facts": [
+      [
+        "지역",
+        "노원구 공릉동(태릉입구역)"
+      ],
+      [
+        "단지 규모",
+        "전체 100세대"
+      ],
+      [
+        "접수",
+        "2026.08.17~08.18(마감)"
+      ]
+    ],
+    "insight": "중랑구와 가까운 노원구 공릉동 단지의 예비입주자 추가모집공고예요. 접수기간은 2026.08.17~08.18로 이미 마감됐습니다. 모집 세대수는 출처마다 달라서(한쪽 공지는 \"청년특별 1·신혼부부일반 2세대\" 등 총 4세대를 언급, 다른 쪽은 \"일반공급 2세대\"라고만 나옴) 정확한 숫자는 확정하지 못했지만, 신혼부부일반 몫이 있었다는 언급은 일관되게 나와서 신혼부부형 포함 가능성은 높게 봤어요. 전용면적과 보증금·임대료는 검색으로는 못 찾았고, 이미 마감된 공고라 다음 회차를 기다려야 해요.",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?boardId=6638&menuNo=400008&optn1=2026-08-13"
+  },
+  "soco-6624": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "2026년 2차 청년안심주택(공공임대) 입주자모집공고",
+    "tags": [
+      [
+        "closed",
+        "접수마감",
+        true
+      ],
+      [
+        "warn",
+        "📍 지역 확인 필요"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "good",
+        "💑 신혼부부 트랙 포함"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "581세대(신규 349·재공급 232)"
+      ],
+      [
+        "접수",
+        "2026.08.11~08.13(마감)"
+      ],
+      [
+        "자격",
+        "19~39세 무주택, 소득·자산기준"
+      ]
+    ],
+    "insight": "581세대 규모의 정기 회차(2차) 공고라 청년형과 신혼부부형이 같이 있는 건 확실하지만, 이 공고 하나에 여러 단지가 묶여 있어서 \"어느 구에 몇 ㎡짜리가 몇 세대\" 있는지는 단지별 공급내역표를 봐야 알 수 있어요. 한 검색 결과에서 재공급 물량에 광진구 리마크빌 군자가 포함될 수 있다는 언급이 있었지만 출처가 하나뿐이라 확정하긴 어려워요. 접수는 이미 8/13에 마감됐고, 다음 회차(3차)가 올라오면 자동 갱신으로 이 자리에 새로 뜰 거예요.",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?boardId=6624&menuNo=400008&optn1=2026-07-31"
+  },
+  "soco-6613": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "개봉역 에드가개봉 청년안심주택 입주자 최초모집공고",
+    "tags": [
+      [
+        "off",
+        "📍 구로구 · 우선지역 아님"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "warn",
+        "💑 신혼부부형 포함 여부 확인 필요"
+      ]
+    ],
+    "facts": [
+      [
+        "지역",
+        "구로구(개봉역)"
+      ],
+      [
+        "유형",
+        "공공지원 민간임대"
+      ],
+      [
+        "날짜",
+        "2026.07.28"
+      ]
+    ],
+    "insight": "구로구 개봉역 개별 단지 공고예요. 청년안심주택 단지들은 보통 청년형과 신혼부부형을 같이 내놓지만, 이 단지가 실제로 신혼부부형을 포함하는지는 검색만으로 확인이 안 돼서 원문을 봐야 확실해집니다. 위치도 우리 우선 지역(중랑·광진·강동)에서는 먼 편이라 급하게 볼 필요는 없어 보여요.",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?optn1=2026-07-28&boardId=6613&menuNo=400008"
+  },
+  "soco-hwarangdae": {
+    "source": "청년안심주택 · soco.seoul.go.kr",
+    "title": "화랑대역 에이트플레이스 청년안심주택 예비입주자 추가모집공고",
+    "tags": [
+      [
+        "closed",
+        "접수마감",
+        true
+      ],
+      [
+        "good",
+        "📍 중랑구 · 최우선지역"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "good",
+        "💑 신혼부부 구분모집 있음"
+      ]
+    ],
+    "facts": [
+      [
+        "지역",
+        "중랑구 신내동(화랑대역)"
+      ],
+      [
+        "규모",
+        "전체 724세대 중 민간임대 471세대(최초모집 기준)"
+      ],
+      [
+        "접수",
+        "2026.07.24~07.27(마감)"
+      ]
+    ],
+    "insight": "중랑구 신내동에 있는 단지라 우리 최우선 지역 조건에 정확히 맞아요! 청년·청년셰어·신혼부부로 구분해서 모집한다는 점도 확인됐어요. 다만 이번엔 예비입주자 \"추가모집\" 공고라 접수가 이미 7/27에 마감됐고, 정확한 전용면적별 세대 배분표는 원문에서 확인이 필요해요. 최초모집(5월) 기준 보증금 4,800만원~2억1,550만원, 월세 16만원~77만원 수준이었다는 정보가 있지만 추가모집 조건과 동일한지는 불확실해요. 다음에 이 단지에서 새 모집공고가 뜨면 놓치지 않도록 체크해두면 좋을 것 같아요.",
+    "link": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?optn1=2026-07-23&boardId=6609&menuNo=400008"
+  },
+  "lh-jeonse": {
+    "source": "LH청약플러스 · apply.lh.or.kr",
+    "title": "신혼·신생아 전세임대 Ⅰ·Ⅱ 입주자 수시모집",
+    "tags": [
+      [
+        "always",
+        "상시모집",
+        true
+      ],
+      [
+        "good",
+        "📍 강동·광진·중랑 포함(전지역 신청)"
+      ],
+      [
+        "good",
+        "📐 85㎡ 이하 자율선택(40㎡+ 가능)"
+      ],
+      [
+        "good",
+        "💑 신혼·신생아 대상"
+      ]
+    ],
+    "facts": [
+      [
+        "방식",
+        "본인이 매물을 구해오면 LH가 보증금 지원"
+      ],
+      [
+        "접수기간",
+        "2026.03.24~2026.12.31(상시)"
+      ],
+      [
+        "한도",
+        "Ⅰ 수도권 2.4억 / Ⅱ 수도권 2.4억·광역시 1.6억·기타 1.3억"
+      ]
+    ],
+    "insight": "이건 정해진 회차가 있는 공고가 아니라 2026년 내내(3/24~12/31) 상시로 열려 있는 프로그램이에요. LH가 특정 집을 지정해주는 게 아니라, 본인이 원하는 지역에서 전세·보증부월세 매물을 직접 구해오면 LH가 보증금을 지원해주는 방식이라 중랑·광진·강동은 물론 어디든 가능하고, 전용 85㎡ 이하 한도 안에서 40㎡ 이상 집도 자유롭게 고를 수 있어요. Ⅰ유형은 소득 70%↓(맞벌이 90%↓), Ⅱ유형은 130%↓(맞벌이 200%↓)로 소득 기준이 달라서 어느 쪽에 해당하는지 먼저 따져보는 게 좋아요. 다만 집을 스스로 구해야 하고 집주인이 전세임대 제도에 동의해야 계약이 성사된다는 점은 참고하세요. (이 프로그램은 특정 회차 공고가 아니라 상시 운영이라, 아래 링크는 공고 게시판이 아니라 LH의 신혼·신생아 전세임대 제도 안내 페이지로 연결됩니다.)",
+    "link": "https://www.lh.or.kr/menu.es?mid=a10401020700"
+  },
+  "sh-jeonse51": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "제51차 장기전세주택 예비입주자 모집공고",
+    "tags": [
+      [
+        "soon",
+        "접수예정 09.14~09.17",
+        true
+      ],
+      [
+        "good",
+        "📍 중랑구 어반하임102 1세대(신규공급)"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "warn",
+        "💑 신혼부부 신청 가능(전용 트랙 아님)"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "신규 9개단지 291세대 + 재공급 70개단지·지구 1,090세대, 총 1,381세대"
+      ],
+      [
+        "신규공급 단지",
+        "강남 래미안레벤투스24·청담르엘57, 서초 디에이치방배133·오티에르반포20, 구로 두산위브더프레스티지9, 동대문 이문3 복합공공청사2, 성동 성동자이리버뷰9, 영등포 영등포자이디그니티36, 중랑 어반하임102 1"
+      ],
+      [
+        "접수",
+        "1순위 09.14~15 · 2순위 09.16 · 3·4순위 09.17"
+      ]
+    ],
+    "insight": "이번 51차 장기전세는 신혼부부 전용 트랙이 아니라 일반 무주택 세대주를 대상으로 하는 정기 회차예요. 뉴스에 공개된 신규 공급 9개 단지 목록을 확인해보니 중랑구 어반하임102에 신규 1세대가 배정돼 있는 건 확인됐지만(이전에 \"재공급\"으로 잘못 적었던 걸 정정했어요), 강동·광진구는 이 신규공급 목록에 없어요. 다만 물량의 대부분(1,090세대)은 기존 단지 재공급분이라 그 안에 강동·광진구가 포함되는지는 검색으로 확인이 안 돼서 원문 공급내역표를 봐야 확실해져요. 이 1세대의 정확한 전용면적·전세금도 검색으로는 안 나와서 원문을 봐야 합니다. 접수는 순위별로 나뉘어 1순위 9/14~15, 2순위 9/16, 3·4순위 9/17이에요.",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-happy2": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 2차 행복주택 입주자 모집공고",
+    "tags": [
+      [
+        "soon",
+        "접수예정 09.09~09.11",
+        true
+      ],
+      [
+        "warn",
+        "📍 지역 확인 필요"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "warn",
+        "💑 신혼부부 포함(전용 특별공급 아님)"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "총 1,484세대(신규154·잔여391·예비939)"
+      ],
+      [
+        "대상",
+        "대학생·청년·신혼부부·고령자, 2세 미만 자녀가구 우선공급"
+      ],
+      [
+        "임대료 예시",
+        "39㎡↓ 보증금 1억1,800만원/월45만원 · 59㎡↓ 1억7,300만원/월66만원"
+      ],
+      [
+        "접수",
+        "2026.09.09~09.11, 서류심사대상자 발표 09.21"
+      ]
+    ],
+    "insight": "행복주택은 대학생·청년·신혼부부·고령자를 함께 모집하는 유형이라 신혼부부도 신청은 할 수 있지만, 이번 공고가 신혼부부만을 위한 전용 특별공급은 아니에요. 두산위브더프레스티지 등 여러 단지가 섞여 있다는 것까지는 확인됐고, 39㎡ 이하는 보증금 1억1,800만원/월45만원, 59㎡ 이하는 1억7,300만원/월66만원 수준이라는 예시 임대료도 확인됐어요. 다만 어느 단지가 중랑·광진·강동구에 있는지, 전용면적이 40㎡ 이상인 세대가 있는지는 검색만으로는 확인이 안 돼서 원문 공고문에서 단지별 배정표를 직접 봐야 해요. 접수는 9/9~9/11, 서류심사대상자 발표는 9/21이에요.",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-daegagu": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 하반기 일반 매입임대주택(다가구·원룸) 입주대기자 모집공고",
+    "tags": [
+      [
+        "warn",
+        "📍 지역 확인 필요"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "off",
+        "💑 신혼부부 특정 안 됨"
+      ]
+    ],
+    "facts": [
+      [
+        "유형",
+        "다가구·원룸"
+      ],
+      [
+        "모집방식",
+        "입주대기자"
+      ],
+      [
+        "날짜",
+        "2026.08.27"
+      ]
+    ],
+    "insight": "다가구·원룸 대상 \"입주대기자\" 모집이라 보통 1인 가구나 취약계층 위주로 운영되는 트랙일 가능성이 높아요. 신혼부부 전용 공급이라는 근거는 찾지 못했고, 원룸이면 전용 40㎡ 미만일 가능성도 커서 우선순위는 낮게 잡았습니다. (정확한 상세페이지 URL을 못 찾아서 아래 링크는 SH \"주택임대 공고\" 게시판입니다.)",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-hanok": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 일반주택형 미리내집(공공한옥) 잔여세대 모집공고",
+    "tags": [
+      [
+        "soon",
+        "접수예정 09.03~",
+        true
+      ],
+      [
+        "off",
+        "📍 종로구·성북구 · 우선지역 아님"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "good",
+        "💑 신혼부부형 대상 확인"
+      ]
+    ],
+    "facts": [
+      [
+        "유형",
+        "미리내집 신혼·신생아 매입임대Ⅱ 방식 공공한옥"
+      ],
+      [
+        "지역",
+        "종로구(가회동·계동·원서동·필운동)·성북구(보문동)"
+      ],
+      [
+        "접수",
+        "2026.09.03 시작(마감일 확인 안 됨)"
+      ]
+    ],
+    "insight": "\"공공한옥\"이라는 특화 유형으로, 신혼·신생아 매입임대Ⅱ 방식(시세 60~70%대 준전세)을 적용한다는 것과 대상 자격이 신혼부부·신생아가구라는 점은 이번에 확인됐어요. 다만 소재지가 종로구·성북구라 아쉽게도 중랑·광진·강동과는 거리가 있어서 우선순위는 낮아요. 정확한 잔여 세대수와 전용면적, 접수 마감일은 검색으로 못 찾아서 원문을 봐야 합니다.",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S1T294C297/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-jangjeonse8": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "제8차 장기전세주택2(미리내집) 예비입주자 모집공고",
+    "tags": [
+      [
+        "verified",
+        "📄 PDF 확인됨"
+      ],
+      [
+        "soon",
+        "접수예정 09.07~09.09",
+        true
+      ],
+      [
+        "good",
+        "📍 강동 20·광진 2·중랑 2세대"
+      ],
+      [
+        "warn",
+        "📐 36~84㎡(강동 6세대는 40㎡ 미만)"
+      ],
+      [
+        "good",
+        "💑 신혼부부·예비신혼부부 대상"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "총 496세대(신규 293·재공급 62+141)"
+      ],
+      [
+        "강동구",
+        "20세대 · e편한세상강동프레스티지원 44㎡ 6 · 강동헤리티지자이 59㎡ 1 · 고덕아이파크 59㎡ 1 · 그란츠리버파크 36㎡ 6+44㎡ 1 · 올림픽파크한양수자인 59㎡ 1 · 힐스테이트강동리버뷰 84㎡ 1 · 강동리버스트4·8단지(재공급) 59㎡ 3"
+      ],
+      [
+        "광진구",
+        "2세대 · 래미안프리미어팰리스 59㎡ 1 · 84㎡ 1"
+      ],
+      [
+        "중랑구",
+        "2세대 · 면목2코오롱하늘채 59㎡ 1 · 청광플러스원 84㎡ 1"
+      ],
+      [
+        "전세금(3구)",
+        "3.57억~6.81억 (단지·면적별 상이, 계약금 10%+잔금 90%)"
+      ],
+      [
+        "자격",
+        "신혼부부(혼인신고 7년 이내)/예비신혼부부, 서울시 거주, 5년간 계속 무주택"
+      ],
+      [
+        "소득·자산",
+        "60㎡↓ 120%↓(맞벌이180%↓)·60㎡↑ 150%↓(맞벌이200%↓), 총자산 6.62억~7.94억↓, 자동차 4,542만~5,451만↓"
+      ],
+      [
+        "접수",
+        "인터넷 9/7 10:00~9/9 17:00, 방문 9/9 10~17시 · 서류심사대상자 발표 10/7"
+      ]
+    ],
+    "insight": "공고문 PDF를 직접 확인했어요 — 이전에 자동 검색으로 나왔던 \"광진구 자양동 롯데캐슬 이스트폴 57세대, 강동구 둔촌동 올림픽파크포레온 22세대\"라는 정보는 이 공고문에 없는 잘못된 정보였습니다(정정했어요). 실제로는 강동구 20세대(e편한세상강동프레스티지원·강동헤리티지자이·고덕아이파크·그란츠리버파크·올림픽파크한양수자인·힐스테이트강동리버뷰·강동리버스트4·8단지에 분산), 광진구 2세대(래미안프리미어팰리스), 중랑구 2세대(면목2코오롱하늘채·청광플러스원)가 포함돼요. 다만 강동구 그란츠리버파크의 36㎡ 6세대는 우리 면적 기준(40㎡ 이상) 미달이라 제외하는 게 맞고, 나머지는 44~84㎡로 기준을 만족해요. 이건 매입임대가 아니라 \"장기전세\"라 보증금(전세금)만 있고 월세가 없는 대신 금액이 3.57억~6.81억으로 꽤 커요(70% 선납, 30%는 퇴거 시까지 유예 가능). 신혼부부(혼인 7년 이내)·예비신혼부부만 대상이고 소득·자산 기준도 까다로운 편이니 자격부터 확인해보세요. 접수는 9/7~9/9예요.",
+    "link": "https://www.i-sh.co.kr/app/lay2/S48T586C6792/sublink.do"
+  },
+  "sh-gukmin1973": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 국민임대주택 입주자 모집공고",
+    "tags": [
+      [
+        "open",
+        "접수중 08.31~09.03(선순위)",
+        true
+      ],
+      [
+        "good",
+        "📍 강동구(고덕·강일지구) 포함 확인"
+      ],
+      [
+        "warn",
+        "📐 39·49·59㎡ 이하 혼재(일부 40㎡ 미만)"
+      ],
+      [
+        "warn",
+        "💑 신혼부부 신청 가능(전용 트랙 아님)"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "잔여공가 409+예비입주자 1,564, 총 1,973세대"
+      ],
+      [
+        "단지",
+        "13개 자치구 38개 단지(세곡·강일·마곡·위례포레샤인·고덕온빛채 등)"
+      ],
+      [
+        "임대료 예시",
+        "39㎡↓ 보증금 3,200만원/월25만원 · 49㎡↓ 5,200만원/월34만원 · 59㎡↓ 6,000만원/월38만원"
+      ],
+      [
+        "접수",
+        "선순위 08.31~09.03, 후순위 09.16(선순위 200% 초과 시 미진행)"
+      ],
+      [
+        "자격",
+        "도시근로자 월평균소득 70%↓, 총자산 3.45억↓, 자동차 4,542만↓ · 신생아가구(2023.3.28 이후 출생)는 소득·자산 10~20%p 가산"
+      ]
+    ],
+    "insight": "검색으로 새로 찾은 공고예요(공고일 2026.08.20). 국민임대는 신혼부부 전용 공급이 아니라 무주택 세대 전반을 대상으로 하는 정기 유형이지만, 2023년 3월 28일 이후 자녀를 낳은 가구는 소득·자산 기준이 완화되는 특례가 있어서 신생아가 있는 신혼부부라면 유리할 수 있어요. 공급 지구 중 \"세곡·강일·마곡\"과 \"고덕온빛채\"라는 이름이 뉴스에 나온 걸로 봐서 강동구(고덕·강일지구)는 포함된 게 확인되지만, 광진구·중랑구가 이번 38개 단지 안에 있는지는 검색으로 확인이 안 됐고, 강동구 내 정확한 세대수·전용면적도 원문 공급내역표를 봐야 알 수 있어요. 전용면적은 39·49·59㎡ 등급으로 나뉘는데 39㎡ 이하는 우리 면적 기준(40㎡ 이상) 미달일 가능성이 커서, 강동구 배정분이 어느 면적대인지 확인이 특히 중요해요. 접수는 선순위가 이미 시작돼 9/3까지 진행 중이에요.",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-urban": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 1~2인가구 도시형생활주택 잔여세대 모집공고",
+    "tags": [
+      [
+        "warn",
+        "📍 지역 확인 필요"
+      ],
+      [
+        "warn",
+        "📐 면적 확인 필요"
+      ],
+      [
+        "warn",
+        "💑 신혼부부 대상 여부 확인 필요"
+      ]
+    ],
+    "facts": [
+      [
+        "유형",
+        "도시형생활주택"
+      ],
+      [
+        "대상",
+        "1~2인가구"
+      ],
+      [
+        "날짜",
+        "2026.08.18"
+      ]
+    ],
+    "insight": "\"1~2인가구\"라는 표현이라 신혼부부도 이론상 해당될 수 있지만, 도시형생활주택은 보통 원룸형(전용 40㎡ 미만)이 많아서 우리 면적 기준(40㎡ 이상)에는 안 맞을 가능성이 있어요. 신혼부부 해당 여부와 정확한 면적은 원문에서 확인이 필요합니다. (정확한 상세페이지 URL을 못 찾아서 아래 링크는 SH \"주택임대 공고\" 게시판입니다.)",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  },
+  "sh-miraenae1": {
+    "source": "SH 인터넷청약시스템 · i-sh.co.kr",
+    "title": "2026년 1차 일반주택형 미리내집(신혼·신생아 매입임대Ⅱ)",
+    "tags": [
+      [
+        "verified",
+        "📄 PDF 확인됨"
+      ],
+      [
+        "open",
+        "접수중 08.31~09.02",
+        true
+      ],
+      [
+        "good",
+        "📍 중랑구 새울센스빌 20세대 포함"
+      ],
+      [
+        "good",
+        "📐 전용 42.37~73.84㎡(모두 40㎡ 이상)"
+      ],
+      [
+        "good",
+        "💑 신혼·신생아 대상"
+      ]
+    ],
+    "facts": [
+      [
+        "규모",
+        "128세대(신규 53·잔여 75) · 8개 단지, 6개구"
+      ],
+      [
+        "중랑구",
+        "새울센스빌 A·B동 20세대(신규) · 전용 42.45~59.88㎡"
+      ],
+      [
+        "중랑 보증금",
+        "5,418만~8,988만원 (소득구간별)"
+      ],
+      [
+        "중랑 월세",
+        "55.8만~92.6만원 (소득구간별)"
+      ],
+      [
+        "그 외 지역",
+        "강북구 9 · 구로구 7 · 금천구 52 · 송파구 10 · 도봉구 30세대 (강동·광진구 없음)"
+      ],
+      [
+        "자격",
+        "신혼부부(혼인7년내)·예비신혼부부·신생아가구·혼인가구 등, 소득130%↓(맞벌이200%↓), 자산 3.62억↓"
+      ],
+      [
+        "일정",
+        "서류심사대상자 발표 9/7, 도봉구 모델하우스(구경하는 집) 8/28~29 개방"
+      ]
+    ],
+    "insight": "공고문 PDF를 직접 열어서 확인했어요. 128세대 중 우리 우선지역에 해당하는 건 중랑구 새울센스빌(면목동, A·B동) 20세대뿐이고, 강동구·광진구는 이번 공급 목록에 아예 없어요. 새울센스빌은 전용 42.45~59.88㎡로 40㎡ 기준을 여유 있게 넘고, 보증금은 소득 구간에 따라 5,418만~8,988만원, 월세는 55만8천~92만6천원 사이예요(수급계층·소득80%이내면 시세 60% 구간, 소득130%·맞벌이200%이내면 시세 70% 구간). 신혼부부(혼인 7년 이내)·예비신혼부부·신생아가구 등 여러 자격 중 하나로 신청 가능하고, 접수는 지금(8/31)부터 9/2까지, 서류심사대상자 발표는 9/7이에요. 1세대 1주택형만 신청 가능하니 새울센스빌로 갈지, 다른 지역(강북·구로·금천·송파·도봉)까지 볼지는 정해야 해요.",
+    "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+  }
+};
+
+  const overlay = document.getElementById('modalOverlay');
+  const modalSource = document.getElementById('modalSource');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalTags = document.getElementById('modalTags');
+  const modalFacts = document.getElementById('modalFacts');
+  const modalInsight = document.getElementById('modalInsight');
+  const modalLink = document.getElementById('modalLink');
+  const modalClose = document.getElementById('modalClose');
+  let lastFocused = null;
+
+  function openInsight(id) {
+    const data = INSIGHTS[id];
+    if (!data) return;
+    lastFocused = document.activeElement;
+    modalSource.textContent = data.source;
+    modalTitle.textContent = data.title;
+    modalTags.innerHTML = data.tags.map(function (t) {
+      var cls = t[0], label = t[1], isBadge = t[2];
+      var tagClass = isBadge ? 'status-badge ' + cls : 'pill ' + cls;
+      return '<span class="' + tagClass + '">' + label + '</span>';
+    }).join('');
+    modalFacts.innerHTML = data.facts.map(function (f) {
+      return '<dt>' + f[0] + '</dt><dd>' + f[1] + '</dd>';
+    }).join('');
+    modalInsight.textContent = data.insight;
+    modalLink.href = data.link;
+    overlay.hidden = false;
+    modalClose.focus();
+  }
+
+  function closeInsight() {
+    overlay.hidden = true;
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.querySelectorAll('.listing.clickable').forEach(function (el) {
+    el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openInsight(el.dataset.id);
+      }
+    });
+  });
+
+  modalClose.addEventListener('click', closeInsight);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeInsight();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !overlay.hidden) closeInsight();
+  });
+
+  // 청약신청일 캘린더 — 접수기간/청약시작일이 확실히 확인된 공고만 표시합니다.
+  const TODAY = "2026-09-02";
+  const EVENTS = [
+  {
+    "id": "sh-miraenae1",
+    "start": "2026-08-31",
+    "end": "2026-09-02",
+    "label": "SH 미리내집 1차"
+  },
+  {
+    "id": "sh-gukmin1973",
+    "start": "2026-08-31",
+    "end": "2026-09-03",
+    "label": "SH 국민임대 1973세대"
+  },
+  {
+    "id": "sh-hanok",
+    "start": "2026-09-03",
+    "end": "2026-09-03",
+    "label": "SH 공공한옥"
+  },
+  {
+    "id": "sh-jangjeonse8",
+    "start": "2026-09-07",
+    "end": "2026-09-09",
+    "label": "SH 8차 장기전세"
+  },
+  {
+    "id": "sh-happy2",
+    "start": "2026-09-09",
+    "end": "2026-09-11",
+    "label": "SH 2차 행복주택"
+  },
+  {
+    "id": "sh-jeonse51",
+    "start": "2026-09-14",
+    "end": "2026-09-17",
+    "label": "SH 51차 장기전세"
+  }
+];
+  const UNDATED_NOTE = "접수기간이 아직 확인 안 됐거나 이미 마감되어 캘린더에는 표시하지 않은 공고: 신독산역 센트레빌 웨스트온, 노량진역 한강더퍼스트타워, 개봉역 에드가개봉, SH 하반기 일반 매입임대(다가구·원룸), SH 도시형생활주택 잔여세대, 태릉입구역 이니티움 추가모집(접수 이미 마감 08.17~08.18), 화랑대역 에이트플레이스 추가모집(접수 이미 마감 07.24~07.27), 2026년 2차 청년안심주택 공공임대(접수 이미 마감 08.11~08.13). 상시 접수하는 LH 신혼·신생아 전세임대Ⅰ·Ⅱ(접수기간 2026.03.24~2026.12.31)도 특정 날짜가 아니라 캘린더에는 안 나오니 목록에서 확인해주세요.";
+
+  function ymd(y, m, d) {
+    return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+  }
+
+  function eventsOn(dateStr) {
+    return EVENTS.filter(function (ev) { return dateStr >= ev.start && dateStr <= ev.end; });
+  }
+
+  function renderMonth(year, month) {
+    var monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    var weekdays = ['일','월','화','수','목','금','토'];
+    var firstDow = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    var html = '<div class="month-title">' + year + '년 ' + monthNames[month] + '</div>';
+    html += '<table class="month-table"><thead><tr>';
+    weekdays.forEach(function (w) { html += '<th>' + w + '</th>'; });
+    html += '</tr></thead><tbody><tr>';
+
+    for (var i = 0; i < firstDow; i++) html += '<td></td>';
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr = ymd(year, month, day);
+      var dow = (firstDow + day - 1) % 7;
+      if (dow === 0 && day !== 1) html += '</tr><tr>';
+
+      var todaysEvents = eventsOn(dateStr);
+      var cellClasses = ['day-cell'];
+      if (todaysEvents.length) cellClasses.push('has-event');
+      if (dateStr === TODAY) cellClasses.push('today');
+
+      html += '<td><div class="' + cellClasses.join(' ') + '"><span class="num">' + day + '</span>';
+      todaysEvents.forEach(function (ev) {
+        var isStart = dateStr === ev.start;
+        var isEnd = dateStr === ev.end;
+        var kind = (isStart && isEnd) ? 'point' : (isStart ? 'range-start' : (isEnd ? 'range-end' : 'range-mid'));
+        var text = isStart ? ev.label : '';
+        html += '<button type="button" class="event-bar ' + kind + '" data-id="' + ev.id + '" aria-label="' + ev.label + ' 인사이트 보기">' + text + '</button>';
+      });
+      html += '</div></td>';
+    }
+    html += '</tr></tbody></table>';
+    return html;
+  }
+
+  function renderCalendar() {
+    var months = {};
+    EVENTS.forEach(function (ev) {
+      [ev.start, ev.end].forEach(function (d) {
+        var y = +d.slice(0, 4), m = +d.slice(5, 7) - 1;
+        months[y + '-' + m] = { y: y, m: m };
+      });
+    });
+    var todayY = +TODAY.slice(0, 4), todayM = +TODAY.slice(5, 7) - 1;
+    months[todayY + '-' + todayM] = { y: todayY, m: todayM };
+
+    var sorted = Object.values(months).sort(function (a, b) {
+      return (a.y - b.y) || (a.m - b.m);
+    });
+
+    var container = document.getElementById('calendarMonths');
+    container.innerHTML = sorted.map(function (mo) {
+      return '<div class="month-block">' + renderMonth(mo.y, mo.m) + '</div>';
+    }).join('');
+
+    container.querySelectorAll('.event-bar').forEach(function (el) {
+      el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    });
+
+    document.getElementById('calendarNote').textContent = UNDATED_NOTE;
+  }
+
+  function ddayInfo(ev) {
+    var today = new Date(TODAY + 'T00:00:00');
+    var start = new Date(ev.start + 'T00:00:00');
+    var end = new Date(ev.end + 'T00:00:00');
+    var diffStart = Math.round((start - today) / 86400000);
+    var diffEnd = Math.round((end - today) / 86400000);
+    if (diffEnd < 0) return { status: 'closed', text: '마감', sortKey: 10000 + diffEnd };
+    if (diffStart <= 0) return { status: 'open', text: '접수중', sortKey: diffEnd };
+    return { status: 'soon', text: 'D-' + diffStart, sortKey: diffStart };
+  }
+
+  function renderDdayStrip() {
+    var container = document.getElementById('ddayStrip');
+    if (!container) return;
+    var items = EVENTS.map(function (ev) {
+      var info = ddayInfo(ev);
+      return { ev: ev, info: info };
+    }).sort(function (a, b) { return a.info.sortKey - b.info.sortKey; });
+
+    container.innerHTML = items.map(function (it) {
+      return '<button type="button" class="dday-chip" data-id="' + it.ev.id + '">' +
+        '<span class="status-badge ' + it.info.status + '">' + it.info.text + '</span>' +
+        '<span class="dday-label">' + it.ev.label + '</span></button>';
+    }).join('');
+
+    container.querySelectorAll('.dday-chip').forEach(function (el) {
+      el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    });
+  }
+
+  renderCalendar();
+  renderDdayStrip();
+
+  // 신청 준비서류 체크리스트 — 체크 상태는 이 브라우저에만 저장됩니다.
+  (function () {
+    var STORAGE_KEY = 'jjinmallang-checklist';
+    var boxes = document.querySelectorAll('#checklistList input[type="checkbox"]');
+    var progress = document.getElementById('checklistProgress');
+    if (!boxes.length || !progress) return;
+
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) {}
+
+    function updateProgress() {
+      var total = boxes.length, checked = 0;
+      boxes.forEach(function (b) { if (b.checked) checked++; });
+      progress.textContent = checked + ' / ' + total + ' 완료';
+    }
+
+    boxes.forEach(function (box) {
+      var key = box.dataset.key;
+      if (saved[key]) box.checked = true;
+      box.closest('li').classList.toggle('checked', box.checked);
+      box.addEventListener('change', function () {
+        box.closest('li').classList.toggle('checked', box.checked);
+        saved[box.dataset.key] = box.checked;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch (e) {}
+        updateProgress();
+      });
+    });
+    updateProgress();
+  })();
+
+  // 섹션 바로가기
+  document.querySelectorAll('.nav-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.dataset.target);
+      if (!target) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  // 접수 가능한 공고만 보기 필터
+  function updateFilterCounts() {
+    var open = 0, verified = 0;
+    document.querySelectorAll('.listing.clickable').forEach(function (li) {
+      if (!li.querySelector('.status-badge.closed')) open++;
+      if (li.dataset.verified === 'true') verified++;
+    });
+    var openBtn = document.querySelector('.filter-btn[data-filter="open"]');
+    if (openBtn) openBtn.textContent = '접수 가능만 (' + open + ')';
+    var verifiedBtn = document.querySelector('.filter-btn[data-filter="verified"]');
+    if (verifiedBtn) verifiedBtn.textContent = '📄 PDF 확인만 (' + verified + ')';
+  }
+
+  function applyFilter(filter) {
+    document.querySelectorAll('.listing.clickable').forEach(function (li) {
+      var closed = li.querySelector('.status-badge.closed');
+      var isVerified = li.dataset.verified === 'true';
+      li.hidden = (filter === 'open' && !!closed) || (filter === 'verified' && !isVerified);
+    });
+    document.querySelectorAll('.source-section').forEach(function (section) {
+      var listings = section.querySelectorAll('.listing.clickable');
+      var emptyMsg = section.querySelector('.filter-empty');
+      if (!emptyMsg || !listings.length) return;
+      var anyVisible = Array.prototype.some.call(listings, function (li) { return !li.hidden; });
+      emptyMsg.hidden = anyVisible;
+    });
+    document.querySelectorAll('.filter-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { applyFilter(btn.dataset.filter); });
+  });
+
+  updateFilterCounts();
+  applyFilter('all');
+
+  // 맨 위로 가기
+  (function () {
+    var btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+    window.addEventListener('scroll', function () {
+      btn.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>

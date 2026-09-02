@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>찐말랑 하우스</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #eef2f0;
+    --surface: #ffffff;
+    --surface-2: #e4e9e6;
+    --ink: #14232a;
+    --muted: #566268;
+    --line: #d4dbd7;
+    --accent: #0f5e56;
+    --accent-ink: #ffffff;
+    --accent-soft: #dcece8;
+    --good: #2f7d4f;
+    --good-soft: #e2f1e6;
+    --warn: #a67618;
+    --warn-soft: #f5ead2;
+    --off: #8a6a68;
+    --off-soft: #ece1e0;
+    --shadow: 0 1px 2px rgba(20, 35, 42, 0.06), 0 6px 20px rgba(20, 35, 42, 0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10181b;
+      --surface: #172226;
+      --surface-2: #1e2b2f;
+      --ink: #e7ece9;
+      --muted: #93a3a0;
+      --line: #2a3a3d;
+      --accent: #45b3a4;
+      --accent-ink: #08201c;
+      --accent-soft: #1c3733;
+      --good: #6bc98c;
+      --good-soft: #1c332177;
+      --warn: #e0b258;
+      --warn-soft: #3a2f1877;
+      --off: #d99b96;
+      --off-soft: #3a252477;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #10181b;
+    --surface: #172226;
+    --surface-2: #1e2b2f;
+    --ink: #e7ece9;
+    --muted: #93a3a0;
+    --line: #2a3a3d;
+    --accent: #45b3a4;
+    --accent-ink: #08201c;
+    --accent-soft: #1c3733;
+    --good: #6bc98c;
+    --good-soft: #1c332177;
+    --warn: #e0b258;
+    --warn-soft: #3a2f1877;
+    --off: #d99b96;
+    --off-soft: #3a252477;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { color-scheme: light dark; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Gowun Dodum', sans-serif;
+    line-height: 1.5;
+    padding: 0 0 64px;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  header.top {
+    padding: 40px 20px 28px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--surface-2), var(--bg));
+  }
+
+  header.top .inner { max-width: 980px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 8px 0 10px;
+    text-wrap: balance;
+  }
+
+  .sub { color: var(--muted); font-size: 15px; max-width: 60ch; }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .criteria-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+  }
+
+  .criteria-chip b { font-weight: 600; }
+
+  .updated-line {
+    margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .updated-line a { color: var(--accent); }
+
+  main { padding-top: 20px; }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    padding: 12px 0;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .quick-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .nav-btn {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .nav-btn:hover { background: var(--surface-2); }
+  .nav-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .filter-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .filter-btn.active { background: var(--accent); color: var(--accent-ink); }
+  .filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .filter-empty {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .source-section { scroll-margin-top: 66px; }
+
+  .scroll-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    z-index: 30;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+  .scroll-top-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .scroll-top-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-top-btn { transition: opacity 0.01s linear; }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  .source-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .source-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .source-head h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .source-head .site {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .listing {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .listing:last-of-type { border-bottom: none; }
+
+  .listing.clickable {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+  }
+  .listing.clickable:hover,
+  .listing.clickable:focus-visible {
+    background: var(--surface-2);
+  }
+  .listing.clickable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .listing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .listing-date-group {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .listing-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .listing-chevron {
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  .status-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 5px;
+    letter-spacing: 0.02em;
+  }
+  .status-badge.open   { background: var(--good-soft); color: var(--good); }
+  .status-badge.always { background: var(--accent-soft); color: var(--accent); }
+  .status-badge.soon   { background: var(--warn-soft); color: var(--warn); }
+  .status-badge.closed { background: var(--off-soft);  color: var(--off); }
+
+  .listing-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .listing-meta {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .listing-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .pill.off  { background: var(--off-soft);  color: var(--off); }
+  .pill.verified {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .calendar-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 20px 18px;
+    margin-bottom: 20px;
+  }
+
+  .calendar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .calendar-head h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .calendar-legend .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .dday-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+  }
+
+  .dday-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 14px 8px 8px;
+    cursor: pointer;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .dday-chip:hover {
+    background: var(--accent-soft);
+  }
+  .dday-chip:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .dday-label { white-space: nowrap; }
+
+  .calendar-months {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+
+  .month-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .month-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .month-table th {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--muted);
+    padding-bottom: 4px;
+  }
+
+  .month-table td {
+    text-align: center;
+    vertical-align: top;
+    padding: 1px 2px;
+  }
+
+  .day-cell {
+    width: 100%;
+    box-sizing: border-box;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10.5px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .day-cell .num {
+    padding-top: 2px;
+  }
+
+  .day-cell.has-event .num {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .day-cell.today {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .event-bar {
+    margin-top: 2px;
+    width: 100%;
+    height: 18px;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    font-family: 'Gowun Dodum', sans-serif;
+  }
+  .event-bar.point       { border-radius: 7px; width: calc(100% - 6px); }
+  .event-bar.range-start { border-radius: 7px 0 0 7px; width: calc(100% - 3px); margin-left: 3px; }
+  .event-bar.range-end   { border-radius: 0 7px 7px 0; width: calc(100% - 3px); margin-right: 3px; }
+  .event-bar.range-mid   { border-radius: 0; }
+  .event-bar:hover {
+    filter: brightness(1.12);
+  }
+  .event-bar:focus-visible {
+    filter: brightness(1.12);
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  .calendar-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .source-foot {
+    padding: 12px 20px;
+    background: var(--surface-2);
+  }
+
+  .btn {
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 7px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+
+  .checklist-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .checklist-section summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .checklist-section summary::-webkit-details-marker { display: none; }
+
+  .checklist-section summary h2 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .checklist-chevron {
+    display: inline-block;
+    transition: transform 0.15s ease;
+    color: var(--muted);
+  }
+  .checklist-section details[open] .checklist-chevron { transform: rotate(90deg); }
+
+  .checklist-progress {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .checklist-body {
+    padding: 0 20px 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .checklist-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 14px 0;
+  }
+
+  .checklist-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist-list li label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+
+  .checklist-list input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .checklist-list li.checked label {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .runbox {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .runbox b { color: var(--ink); }
+  .runbox a { color: var(--accent); font-weight: 600; }
+
+  footer.note {
+    max-width: 980px;
+    margin: 36px auto 0;
+    padding: 0 20px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  footer.note a { color: var(--accent); }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 16, 18, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    opacity: 0;
+    animation: overlay-in 0.15s ease forwards;
+  }
+  .modal-overlay[hidden] { display: none; }
+
+  @keyframes overlay-in { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-overlay { animation: none; opacity: 1; }
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(20,35,42,0.14), 0 24px 48px rgba(20,35,42,0.18);
+    max-width: 560px;
+    width: 100%;
+    max-height: min(680px, 88vh);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .modal-head-text .source-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .modal-head h3 {
+    font-family: 'Jua', 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--surface-2); color: var(--ink); }
+
+  .modal-body {
+    padding: 18px 24px;
+    overflow-y: auto;
+  }
+
+  .modal-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .modal-facts {
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    gap: 7px 12px;
+    font-size: 13px;
+  }
+  .modal-facts dt { color: var(--muted); }
+  .modal-facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+  .modal-insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+
+  .modal-insight {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .modal-foot {
+    padding: 14px 24px 18px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow">SH · LH · 청년안심주택</div>
+    <h1>찐말랑 하우스</h1>
+    <p class="sub">세 기관의 최신 입주자모집공고 중 신혼부부 대상 공고만 모아, 우리 기준(지역·면적)에 맞는지 한눈에 확인합니다.</p>
+    <div class="meta-row">
+      <span class="criteria-chip">📍 <b>중랑구·광진구·강동구</b> 우선</span>
+      <span class="criteria-chip">📐 전용 <b>40㎡ 이상</b></span>
+      <span class="criteria-chip">💑 <b>신혼부부</b> 유형</span>
+      <span class="criteria-chip">🗓️ 최근 <b>2개월</b> 공고</span>
+    </div>
+    <div class="updated-line">{{UPDATED_LINE}}</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="runbox">
+    🔄 이 페이지는 매일 오전 10시(KST) <b>GitHub Actions</b>가 3개 사이트를 실제로 다시 확인해 자동 갱신합니다. 지금 바로 새로 확인하고 싶으면 저장소의
+    <a href="{{ACTIONS_URL}}" target="_blank" rel="noopener">Actions → 찐말랑 하우스 자동 갱신 → Run workflow</a> 버튼을 눌러주세요(로그인한 저장소 협업자만 실행 가능).
+  </div>
+
+  <div class="toolbar">
+    <nav class="quick-nav" aria-label="섹션 바로가기">
+      <button type="button" class="nav-btn" data-target="src-soco">청년안심주택</button>
+      <button type="button" class="nav-btn" data-target="src-lh">LH청약플러스</button>
+      <button type="button" class="nav-btn" data-target="src-sh">SH 인터넷청약시스템</button>
+    </nav>
+    <div class="filter-toggle" role="group" aria-label="공고 필터">
+      <button type="button" class="filter-btn active" data-filter="all">전체</button>
+      <button type="button" class="filter-btn" data-filter="open">접수 가능만</button>
+      <button type="button" class="filter-btn" data-filter="verified">📄 PDF 확인만</button>
+    </div>
+  </div>
+
+  <section class="calendar-section">
+    <div class="calendar-head">
+      <h2>청약신청일 캘린더</h2>
+      <span class="calendar-legend"><span class="dot"></span> 접수기간·청약시작일 (클릭하면 인사이트 팝업)</span>
+    </div>
+    <div class="dday-strip" id="ddayStrip"></div>
+    <div class="calendar-months" id="calendarMonths"></div>
+    <div class="calendar-note" id="calendarNote"></div>
+  </section>
+
+  <section class="cards" id="cards">
+{{SOURCE_SECTIONS}}
+  </section>
+
+  <section class="checklist-section">
+    <details>
+      <summary>
+        <h2><span class="checklist-chevron">▸</span> 신청 준비서류 체크리스트</h2>
+        <span class="checklist-progress" id="checklistProgress"></span>
+      </summary>
+      <div class="checklist-body">
+        <p class="checklist-note">공고마다 요구서류가 조금씩 달라요 — 이건 신혼부부 청약에 공통적으로 자주 쓰이는 서류 목록이고, 접수 전 반드시 해당 공고문에서 정확한 서류를 다시 확인하세요. 체크한 내용은 이 기기 브라우저에만 저장돼요.</p>
+        <ul class="checklist-list" id="checklistList">
+          <li><label><input type="checkbox" data-key="id"> 신분증 (주민등록증·운전면허증)</label></li>
+          <li><label><input type="checkbox" data-key="deungbon"> 주민등록등본 (전 세대원 포함, 최근 발급분)</label></li>
+          <li><label><input type="checkbox" data-key="gajok"> 가족관계증명서 · 혼인관계증명서</label></li>
+          <li><label><input type="checkbox" data-key="yebi"> (예비신혼부부) 청첩장 또는 예식장 계약서 등 예비 증빙</label></li>
+          <li><label><input type="checkbox" data-key="income"> 소득 증빙서류 (건강보험료 납부확인서 또는 근로·사업소득 증빙)</label></li>
+          <li><label><input type="checkbox" data-key="nohouse"> 무주택 확인서류 (건축물대장, 지방세 세목별과세증명서 등)</label></li>
+          <li><label><input type="checkbox" data-key="asset"> 자산 관련 서류 (통장 잔액증명서, 자동차등록증 등)</label></li>
+          <li><label><input type="checkbox" data-key="bankbook"> 청약통장 가입확인서 (필요 시)</label></li>
+        </ul>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer class="note">
+  매일 오전 10시 GitHub Actions로 자동 갱신되며, 각 사이트별로 최근 2개월 이내에 게시된 공고만 보여줍니다(상시모집은 예외) · 조건 판정은 공고문 요약을 바탕으로 하며, 최종 신청 전 원문 공고문을 반드시 확인하세요.
+</footer>
+
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="맨 위로">↑</button>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <div class="modal-head-text">
+        <span class="source-tag" id="modalSource"></span>
+        <h3 id="modalTitle"></h3>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="닫기" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tags" id="modalTags"></div>
+      <dl class="modal-facts" id="modalFacts"></dl>
+      <p class="modal-insight-label">PDF·공고문 분석 인사이트</p>
+      <p class="modal-insight" id="modalInsight"></p>
+    </div>
+    <div class="modal-foot">
+      <a class="btn primary" id="modalLink" href="#" target="_blank" rel="noopener">원문 공고 열기 →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const INSIGHTS = {{INSIGHTS_JSON}};
+
+  const overlay = document.getElementById('modalOverlay');
+  const modalSource = document.getElementById('modalSource');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalTags = document.getElementById('modalTags');
+  const modalFacts = document.getElementById('modalFacts');
+  const modalInsight = document.getElementById('modalInsight');
+  const modalLink = document.getElementById('modalLink');
+  const modalClose = document.getElementById('modalClose');
+  let lastFocused = null;
+
+  function openInsight(id) {
+    const data = INSIGHTS[id];
+    if (!data) return;
+    lastFocused = document.activeElement;
+    modalSource.textContent = data.source;
+    modalTitle.textContent = data.title;
+    modalTags.innerHTML = data.tags.map(function (t) {
+      var cls = t[0], label = t[1], isBadge = t[2];
+      var tagClass = isBadge ? 'status-badge ' + cls : 'pill ' + cls;
+      return '<span class="' + tagClass + '">' + label + '</span>';
+    }).join('');
+    modalFacts.innerHTML = data.facts.map(function (f) {
+      return '<dt>' + f[0] + '</dt><dd>' + f[1] + '</dd>';
+    }).join('');
+    modalInsight.textContent = data.insight;
+    modalLink.href = data.link;
+    overlay.hidden = false;
+    modalClose.focus();
+  }
+
+  function closeInsight() {
+    overlay.hidden = true;
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.querySelectorAll('.listing.clickable').forEach(function (el) {
+    el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openInsight(el.dataset.id);
+      }
+    });
+  });
+
+  modalClose.addEventListener('click', closeInsight);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeInsight();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !overlay.hidden) closeInsight();
+  });
+
+  // 청약신청일 캘린더 — 접수기간/청약시작일이 확실히 확인된 공고만 표시합니다.
+  const TODAY = {{TODAY_JSON}};
+  const EVENTS = {{EVENTS_JSON}};
+  const UNDATED_NOTE = {{UNDATED_NOTE_JSON}};
+
+  function ymd(y, m, d) {
+    return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+  }
+
+  function eventsOn(dateStr) {
+    return EVENTS.filter(function (ev) { return dateStr >= ev.start && dateStr <= ev.end; });
+  }
+
+  function renderMonth(year, month) {
+    var monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    var weekdays = ['일','월','화','수','목','금','토'];
+    var firstDow = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    var html = '<div class="month-title">' + year + '년 ' + monthNames[month] + '</div>';
+    html += '<table class="month-table"><thead><tr>';
+    weekdays.forEach(function (w) { html += '<th>' + w + '</th>'; });
+    html += '</tr></thead><tbody><tr>';
+
+    for (var i = 0; i < firstDow; i++) html += '<td></td>';
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr = ymd(year, month, day);
+      var dow = (firstDow + day - 1) % 7;
+      if (dow === 0 && day !== 1) html += '</tr><tr>';
+
+      var todaysEvents = eventsOn(dateStr);
+      var cellClasses = ['day-cell'];
+      if (todaysEvents.length) cellClasses.push('has-event');
+      if (dateStr === TODAY) cellClasses.push('today');
+
+      html += '<td><div class="' + cellClasses.join(' ') + '"><span class="num">' + day + '</span>';
+      todaysEvents.forEach(function (ev) {
+        var isStart = dateStr === ev.start;
+        var isEnd = dateStr === ev.end;
+        var kind = (isStart && isEnd) ? 'point' : (isStart ? 'range-start' : (isEnd ? 'range-end' : 'range-mid'));
+        var text = isStart ? ev.label : '';
+        html += '<button type="button" class="event-bar ' + kind + '" data-id="' + ev.id + '" aria-label="' + ev.label + ' 인사이트 보기">' + text + '</button>';
+      });
+      html += '</div></td>';
+    }
+    html += '</tr></tbody></table>';
+    return html;
+  }
+
+  function renderCalendar() {
+    var months = {};
+    EVENTS.forEach(function (ev) {
+      [ev.start, ev.end].forEach(function (d) {
+        var y = +d.slice(0, 4), m = +d.slice(5, 7) - 1;
+        months[y + '-' + m] = { y: y, m: m };
+      });
+    });
+    var todayY = +TODAY.slice(0, 4), todayM = +TODAY.slice(5, 7) - 1;
+    months[todayY + '-' + todayM] = { y: todayY, m: todayM };
+
+    var sorted = Object.values(months).sort(function (a, b) {
+      return (a.y - b.y) || (a.m - b.m);
+    });
+
+    var container = document.getElementById('calendarMonths');
+    container.innerHTML = sorted.map(function (mo) {
+      return '<div class="month-block">' + renderMonth(mo.y, mo.m) + '</div>';
+    }).join('');
+
+    container.querySelectorAll('.event-bar').forEach(function (el) {
+      el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    });
+
+    document.getElementById('calendarNote').textContent = UNDATED_NOTE;
+  }
+
+  function ddayInfo(ev) {
+    var today = new Date(TODAY + 'T00:00:00');
+    var start = new Date(ev.start + 'T00:00:00');
+    var end = new Date(ev.end + 'T00:00:00');
+    var diffStart = Math.round((start - today) / 86400000);
+    var diffEnd = Math.round((end - today) / 86400000);
+    if (diffEnd < 0) return { status: 'closed', text: '마감', sortKey: 10000 + diffEnd };
+    if (diffStart <= 0) return { status: 'open', text: '접수중', sortKey: diffEnd };
+    return { status: 'soon', text: 'D-' + diffStart, sortKey: diffStart };
+  }
+
+  function renderDdayStrip() {
+    var container = document.getElementById('ddayStrip');
+    if (!container) return;
+    var items = EVENTS.map(function (ev) {
+      var info = ddayInfo(ev);
+      return { ev: ev, info: info };
+    }).sort(function (a, b) { return a.info.sortKey - b.info.sortKey; });
+
+    container.innerHTML = items.map(function (it) {
+      return '<button type="button" class="dday-chip" data-id="' + it.ev.id + '">' +
+        '<span class="status-badge ' + it.info.status + '">' + it.info.text + '</span>' +
+        '<span class="dday-label">' + it.ev.label + '</span></button>';
+    }).join('');
+
+    container.querySelectorAll('.dday-chip').forEach(function (el) {
+      el.addEventListener('click', function () { openInsight(el.dataset.id); });
+    });
+  }
+
+  renderCalendar();
+  renderDdayStrip();
+
+  // 신청 준비서류 체크리스트 — 체크 상태는 이 브라우저에만 저장됩니다.
+  (function () {
+    var STORAGE_KEY = 'jjinmallang-checklist';
+    var boxes = document.querySelectorAll('#checklistList input[type="checkbox"]');
+    var progress = document.getElementById('checklistProgress');
+    if (!boxes.length || !progress) return;
+
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) {}
+
+    function updateProgress() {
+      var total = boxes.length, checked = 0;
+      boxes.forEach(function (b) { if (b.checked) checked++; });
+      progress.textContent = checked + ' / ' + total + ' 완료';
+    }
+
+    boxes.forEach(function (box) {
+      var key = box.dataset.key;
+      if (saved[key]) box.checked = true;
+      box.closest('li').classList.toggle('checked', box.checked);
+      box.addEventListener('change', function () {
+        box.closest('li').classList.toggle('checked', box.checked);
+        saved[box.dataset.key] = box.checked;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch (e) {}
+        updateProgress();
+      });
+    });
+    updateProgress();
+  })();
+
+  // 섹션 바로가기
+  document.querySelectorAll('.nav-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.dataset.target);
+      if (!target) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  // 접수 가능한 공고만 보기 필터
+  function updateFilterCounts() {
+    var open = 0, verified = 0;
+    document.querySelectorAll('.listing.clickable').forEach(function (li) {
+      if (!li.querySelector('.status-badge.closed')) open++;
+      if (li.dataset.verified === 'true') verified++;
+    });
+    var openBtn = document.querySelector('.filter-btn[data-filter="open"]');
+    if (openBtn) openBtn.textContent = '접수 가능만 (' + open + ')';
+    var verifiedBtn = document.querySelector('.filter-btn[data-filter="verified"]');
+    if (verifiedBtn) verifiedBtn.textContent = '📄 PDF 확인만 (' + verified + ')';
+  }
+
+  function applyFilter(filter) {
+    document.querySelectorAll('.listing.clickable').forEach(function (li) {
+      var closed = li.querySelector('.status-badge.closed');
+      var isVerified = li.dataset.verified === 'true';
+      li.hidden = (filter === 'open' && !!closed) || (filter === 'verified' && !isVerified);
+    });
+    document.querySelectorAll('.source-section').forEach(function (section) {
+      var listings = section.querySelectorAll('.listing.clickable');
+      var emptyMsg = section.querySelector('.filter-empty');
+      if (!emptyMsg || !listings.length) return;
+      var anyVisible = Array.prototype.some.call(listings, function (li) { return !li.hidden; });
+      emptyMsg.hidden = anyVisible;
+    });
+    document.querySelectorAll('.filter-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { applyFilter(btn.dataset.filter); });
+  });
+
+  updateFilterCounts();
+  applyFilter('all');
+
+  // 맨 위로 가기
+  (function () {
+    var btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+    window.addEventListener('scroll', function () {
+      btn.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>

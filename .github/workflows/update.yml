@@ -1,0 +1,46 @@
+name: 찐말랑 하우스 자동 갱신
+
+on:
+  schedule:
+    - cron: "0 1 * * *"  # 매일 10:00 KST (UTC+9)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jjinmallang-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Scrape sources
+        run: python3 scripts/scrape.py
+
+      - name: Build page
+        run: python3 scripts/build.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "jjinmallang-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- data/live.json docs/index.html; then
+            echo "No changes — nothing to commit."
+            exit 0
+          fi
+          git add data/live.json docs/index.html
+          git commit -m "자동 갱신: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
