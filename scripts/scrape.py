@@ -75,8 +75,40 @@ def short_id(prefix, title):
     return f"{prefix}-auto-{h}"
 
 
+RELATIVE_TIME_RE = re.compile(r"\s*(\d+\s*(일|시간|분)\s*전|방금\s*전)\s*$")
+
+# LH's list page is nationwide, not Seoul-scoped — only keep postings that
+# look relevant to our priority region so the page doesn't fill up with
+# provincial announcements that have nothing to do with 중랑·광진·강동.
+REGION_KEYWORDS = {
+    "lh": ["서울", "강동", "광진", "중랑"],
+}
+
+# List pages mix genuine new-application notices in with unrelated rows
+# (winner announcements, RFP results, schedule tweaks). Keep only rows that
+# read like an actual call for applications.
+REQUIRE_KEYWORD = "모집"
+EXCLUDE_KEYWORDS = ["당첨자", "동호배정"]
+
+
+def looks_like_posting(title):
+    return REQUIRE_KEYWORD in title and not any(kw in title for kw in EXCLUDE_KEYWORDS)
+
+
 def normalize_title(text):
-    return re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+", " ", text).strip()
+    text = RELATIVE_TIME_RE.sub("", text).strip()
+    text = re.sub(r"^(NEW|HOT|N)\s*(?=\[|[가-힣])", "", text).strip()
+    return text
+
+
+def core_title(text):
+    """A looser key for de-duplicating near-identical titles across scrapes."""
+    t = re.sub(r"\[[^\]]*\]", "", text)  # drop bracketed office/region tags
+    t = re.sub(r"\([^)]*\)", "", t)  # drop parenthetical dates/notes
+    for suffix in ["예비입주자 모집공고", "입주자 모집공고", "예비입주자 모집", "입주자모집공고", "모집공고"]:
+        t = t.replace(suffix, "")
+    return re.sub(r"\s+", "", t).strip()
 
 
 def fetch_rows(url):
@@ -130,17 +162,26 @@ def scrape_source(key, url):
     if not rows:
         log(f"{key}: fetched OK but found 0 candidate rows (site layout may not match parser)")
         return [], "0 rows parsed — layout may have changed, check parser"
-    log(f"{key}: found {len(rows)} candidate rows")
+
+    before = len(rows)
+    rows = [r for r in rows if looks_like_posting(r[0])]
+
+    keywords = REGION_KEYWORDS.get(key)
+    if keywords:
+        rows = [r for r in rows if any(kw in r[0] for kw in keywords)]
+
+    log(f"{key}: found {before} candidate rows, {len(rows)} kept after content/region filtering")
     return rows, None
 
 
 def merge_source(source, key, rows, today):
-    existing_by_title = {normalize_title(l["title"]): l for l in source["listings"]}
+    existing_by_core = {core_title(l["title"]): l for l in source["listings"]}
     window_start = today - timedelta(days=60)
 
     if rows is not None:
         for title, d, link in rows:
-            existing = existing_by_title.get(title)
+            core = core_title(title)
+            existing = existing_by_core.get(core)
             if existing is not None:
                 if existing.get("verified"):
                     continue  # never touch human-verified entries
@@ -164,7 +205,7 @@ def merge_source(source, key, rows, today):
                     "link": link,
                 },
             })
-            existing_by_title[title] = source["listings"][-1]
+            existing_by_core[core] = source["listings"][-1]
 
     # drop stale, non-verified, non-always listings outside the window
     kept = []
