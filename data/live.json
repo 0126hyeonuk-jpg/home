@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-09-07T10:11:28.496081+09:00",
+  "updated_at": "2026-09-08T10:12:19.173027+09:00",
   "window": {
-    "start": "2026-07-09",
-    "end": "2026-09-07"
+    "start": "2026-07-10",
+    "end": "2026-09-08"
   },
-  "today": "2026-09-07",
+  "today": "2026-09-08",
   "sources": {
     "soco": {
       "name": "청년안심주택",
@@ -266,7 +266,7 @@
       "scrape_status": {
         "ok": true,
         "note": "0 rows parsed — layout may have changed, check parser",
-        "checked_at": "2026-09-07T10:11:28.496081+09:00",
+        "checked_at": "2026-09-08T10:12:19.173027+09:00",
         "candidates": 0
       }
     },
@@ -325,7 +325,7 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-09-07T10:11:28.496081+09:00",
+        "checked_at": "2026-09-08T10:12:19.173027+09:00",
         "candidates": 0
       }
     },
@@ -942,7 +942,7 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-09-07T10:11:28.496081+09:00",
+        "checked_at": "2026-09-08T10:12:19.173027+09:00",
         "candidates": 4
       }
     }
