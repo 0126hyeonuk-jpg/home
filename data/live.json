@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-10-16T14:34:39.153798+09:00",
+  "updated_at": "2026-10-17T14:22:55.826421+09:00",
   "window": {
-    "start": "2026-08-17",
-    "end": "2026-10-16"
+    "start": "2026-08-18",
+    "end": "2026-10-17"
   },
-  "today": "2026-10-16",
+  "today": "2026-10-17",
   "sources": {
     "soco": {
       "name": "청년안심주택",
@@ -97,7 +97,7 @@
       "scrape_status": {
         "ok": true,
         "note": "0 rows parsed — layout may have changed, check parser",
-        "checked_at": "2026-10-16T14:34:39.153798+09:00",
+        "checked_at": "2026-10-17T14:22:55.826421+09:00",
         "candidates": 0
       }
     },
@@ -300,8 +300,8 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-10-16T14:34:39.153798+09:00",
-        "candidates": 1
+        "checked_at": "2026-10-17T14:22:55.826421+09:00",
+        "candidates": 0
       }
     },
     "sh": {
@@ -311,6 +311,78 @@
       "foot_label": "주택임대 공고 게시판 →",
       "foot_url": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2",
       "listings": [
+        {
+          "id": "sh-auto-2dff8e1e",
+          "date": "2026.10.16",
+          "title": "서초구 청년예술인주택 서리풀 청년아트타운(수요자맞춤형) 잔여세대 모집 공고",
+          "status": null,
+          "verified": false,
+          "tags": [
+            [
+              "warn",
+              "📍 지역 확인 필요"
+            ],
+            [
+              "warn",
+              "📐 면적 확인 필요"
+            ],
+            [
+              "warn",
+              "💑 신혼부부 대상 여부 확인 필요"
+            ]
+          ],
+          "meta": "자동 수집된 신규 공고입니다 — 지역·면적·신혼부부 해당 여부는 아직 판정되지 않았어요. 원문을 확인해주세요.",
+          "insight": {
+            "facts": [
+              [
+                "발견",
+                "GitHub Actions 자동 스크래핑"
+              ],
+              [
+                "날짜",
+                "2026.10.16"
+              ]
+            ],
+            "text": "이 공고는 자동 스크래핑으로 새로 발견됐지만, 아직 지역·면적·신혼부부 해당 여부를 판정하지 못했어요. 원문 공고를 직접 확인해주세요.",
+            "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+          }
+        },
+        {
+          "id": "sh-auto-6bf40284",
+          "date": "2026.10.16",
+          "title": "2026년 하반기 신혼·신생아 매입임대주택 입주자 모집공고(2026. 9. 30.) 최종 경쟁률 안내",
+          "status": null,
+          "verified": false,
+          "tags": [
+            [
+              "warn",
+              "📍 지역 확인 필요"
+            ],
+            [
+              "warn",
+              "📐 면적 확인 필요"
+            ],
+            [
+              "warn",
+              "💑 신혼부부 대상 여부 확인 필요"
+            ]
+          ],
+          "meta": "자동 수집된 신규 공고입니다 — 지역·면적·신혼부부 해당 여부는 아직 판정되지 않았어요. 원문을 확인해주세요.",
+          "insight": {
+            "facts": [
+              [
+                "발견",
+                "GitHub Actions 자동 스크래핑"
+              ],
+              [
+                "날짜",
+                "2026.10.16"
+              ]
+            ],
+            "text": "이 공고는 자동 스크래핑으로 새로 발견됐지만, 아직 지역·면적·신혼부부 해당 여부를 판정하지 못했어요. 원문 공고를 직접 확인해주세요.",
+            "link": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2"
+          }
+        },
         {
           "id": "sh-auto-9d267bd9",
           "date": "2026.10.15",
@@ -2141,7 +2213,7 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-10-16T14:34:39.153798+09:00",
+        "checked_at": "2026-10-17T14:22:55.826421+09:00",
         "candidates": 3
       }
     }
