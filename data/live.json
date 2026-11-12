@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-11T16:33:35.003713+09:00",
+  "updated_at": "2026-11-12T17:00:29.071009+09:00",
   "window": {
-    "start": "2026-09-12",
-    "end": "2026-11-11"
+    "start": "2026-09-13",
+    "end": "2026-11-12"
   },
-  "today": "2026-11-11",
+  "today": "2026-11-12",
   "sources": {
     "soco": {
       "name": "청년안심주택",
@@ -14,9 +14,9 @@
       "foot_url": "https://soco.seoul.go.kr/youth/bbs/BMSR00015/list.do?menuNo=400008",
       "listings": [],
       "scrape_status": {
-        "ok": false,
-        "note": "HTTPSConnectionPool(host='soco.seoul.go.kr', port=443): Max retries exceeded with url: /youth/bbs/BMSR00015/list.do?menuNo=400008 (Caused by ConnectTimeoutError(<HTTPSConnection(host='soco.seoul.go.kr', port=443) at 0x70934e28c050>, 'Connection to soco.seoul.go.kr timed out. (connect timeout=20)'))",
-        "checked_at": "2026-11-11T16:33:35.003713+09:00",
+        "ok": true,
+        "note": "0 rows parsed — layout may have changed, check parser",
+        "checked_at": "2026-11-12T17:00:29.071009+09:00",
         "candidates": 0
       }
     },
@@ -219,7 +219,7 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-11-11T16:33:35.003713+09:00",
+        "checked_at": "2026-11-12T17:00:29.071009+09:00",
         "candidates": 0
       }
     },
@@ -1760,7 +1760,7 @@
       "scrape_status": {
         "ok": true,
         "note": null,
-        "checked_at": "2026-11-11T16:33:35.003713+09:00",
+        "checked_at": "2026-11-12T17:00:29.071009+09:00",
         "candidates": 2
       }
     }
